@@ -6,7 +6,12 @@ import {
     LOGOUT_USER,
     UPDATE_USER_BEGIN,
     UPDATE_USER_SUCCESS,
-    UPDATE_USER_ERROR
+    UPDATE_USER_ERROR,
+    HANDLE_CHANGE,
+    CLEAR_VALUES,
+    CREATE_POST_BEGIN,
+    CREATE_POST_SUCCESS,
+    CREATE_POST_ERROR
 } from "./actions"
 import { initialState } from "./appContext"
 const reducer = (state, action) => {
@@ -110,7 +115,41 @@ const reducer = (state, action) => {
                 showAlert: true,
                 alertType: 'danger',
                 alertText: action.payload.msg,
-            }                               
+            } 
+        case HANDLE_CHANGE:
+            return {
+                ...state,
+                [action.payload.name]: action.payload.value
+            } 
+        case CLEAR_VALUES:
+            const initialState = {
+               isEditing: false,
+               editPostId: '',
+               postTitle: '',
+               postDesc: '',
+               postPhoto: ''
+            }  
+            return {...state, ...initialState} 
+        case CREATE_POST_BEGIN:
+            return {
+                ...state,
+                isLoading: true
+            }  
+        case CREATE_POST_SUCCESS:
+            return {
+                ...state,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'New Job Created'
+            }  
+        case CREATE_POST_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg
+            }                                          
         default:
             throw new Error(`no such action :${action.type}`)
     }

@@ -1,5 +1,5 @@
 import React, {useReducer, useContext} from "react"
-import { CLEAR_ALERT, DISPLAY_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, TOGGLE_SIDEBAR, LOGOUT_USER, UPDATE_USER_BEGIN, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR } from "./actions"
+import { CLEAR_ALERT, DISPLAY_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, TOGGLE_SIDEBAR, LOGOUT_USER, UPDATE_USER_BEGIN, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_VALUES, CREATE_POST_BEGIN, CREATE_POST_SUCCESS, CREATE_POST_ERROR } from "./actions"
 import axios from 'axios'
 
 import reducer from "./reducer"
@@ -18,7 +18,7 @@ export const initialState = {
     isEditing: false,
     editPostId: '',
     postTitle: '',
-    postDecs: '',
+    postDesc: '',
     postPhoto: '',
     showSidebar: false,
   }
@@ -152,6 +152,38 @@ export const initialState = {
         }
         clearAlert()
       }
+
+      const handleChange = ({name, value}) => {
+        dispatch({
+          type: HANDLE_CHANGE,
+          payload: {name, value},
+        })
+      }
+      const clearValues = () => {
+        dispatch({type: CLEAR_VALUES})
+      }
+      const createPost = async () => {
+        dispatch({type: CREATE_POST_BEGIN})
+        try {
+          const {postTitle, postDesc, postPhoto} = state
+
+          await authFetch.post('/posts', {
+            postTitle,
+            postDesc,
+            postPhoto
+          })
+
+         dispatch({type: CREATE_POST_SUCCESS}) 
+         dispatch({type: CLEAR_VALUES})
+        } catch (error) {
+          if(error.response.status === 401) return
+          dispatch({
+            type: CREATE_POST_ERROR,
+            payload: {msg: error.response.data.msg }
+          })
+        }
+        clearAlert()
+      }
       return (
       <AppContext.Provider
          value={{
@@ -161,7 +193,10 @@ export const initialState = {
              loginUser,
              toggleSidebar,
              logoutUser,
-             updateUser
+             updateUser,
+             handleChange,
+             clearValues,
+             createPost
          }}
          >
           {children}

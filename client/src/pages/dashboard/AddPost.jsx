@@ -9,27 +9,34 @@ export const AddPost = () => {
     isEditing,
     editPostId,
     postTitle,
-    postDecs,
-    postPhoto
+    postDesc,
+    postPhoto,
+    clearValues,
+    handleChange,
+    createPost
   } = useAppContext()
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if(!postTitle || !postDecs){
+    if(!postTitle || !postDesc){
       displayAlert()
       return
     }
-    console.log("create post")
+    if(isEditing){
+      return
+    }
+    createPost()
   }
   const handlePostInput = (e) => {
     const name = e.target.name
     const value = e.target.value
-    console.log(`${name}:${value}`)
+    handleChange({name, value})
   }
   return (
     <Wrapper>
       <form className="form">
         <h3>{isEditing ? 'edit post' : 'add post'}</h3>
+        {showAlert && <Alert />}
         <div className="form-row">
         <label htmlFor="title" className="form-label">Post Title</label>
         <input 
@@ -38,12 +45,17 @@ export const AddPost = () => {
             name='postTitle'
             className='form-input'
             value={postTitle}
-            handlePostInput={handlePostInput}
+             onChange={handlePostInput}
             />
         </div>
         <div className="form-row">
-        <label htmlFor="message" className="form-label">Message</label>
-        <textarea name="message" className='form-textarea'></textarea>
+        <label htmlFor="postDesc" className="form-label">Message</label>
+        <textarea 
+             name="postDesc"
+             value={postDesc}
+             className='form-textarea'
+             onChange={handlePostInput}
+           />
         </div>
         <input
             type="file"
@@ -56,6 +68,15 @@ export const AddPost = () => {
             onClick={handleSubmit}
             >
             submit
+            </button>
+            <button 
+            className="btn btn-block clear-btn" 
+            onClick={(e) => {
+              e.preventDefault()
+              clearValues()
+            }}
+            >
+            clear
             </button>
           </div>
       </form>
