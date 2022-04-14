@@ -11,7 +11,13 @@ import {
     CLEAR_VALUES,
     CREATE_POST_BEGIN,
     CREATE_POST_SUCCESS,
-    CREATE_POST_ERROR
+    CREATE_POST_ERROR,
+    CREATE_HEALTH_POST_BEGIN,
+    CREATE_HEALTH_POST_SUCCESS,
+    CREATE_HEALTH_POST_ERROR,
+    CREATE_EVENT_SUCCESS,
+    CREATE_EVENT_ERROR,
+    CREATE_EVENT_BEGIN
 } from "./actions"
 import { initialState } from "./appContext"
 const reducer = (state, action) => {
@@ -127,7 +133,13 @@ const reducer = (state, action) => {
                editPostId: '',
                postTitle: '',
                postDesc: '',
-               postPhoto: ''
+               postPhoto: '',
+               healthTitle: '',
+               healthDesc: '',
+               healthPhoto: '',
+               eventTitle: '',
+               date: '',
+               eventPhoto: ''
             }  
             return {...state, ...initialState} 
         case CREATE_POST_BEGIN:
@@ -140,7 +152,7 @@ const reducer = (state, action) => {
                 ...state,
                 showAlert: true,
                 alertType: 'success',
-                alertText: 'New Job Created'
+                alertText: 'New Post Created'
             }  
         case CREATE_POST_ERROR:
             return {
@@ -149,7 +161,47 @@ const reducer = (state, action) => {
                 showAlert: true,
                 alertType: 'danger',
                 alertText: action.payload.msg
-            }                                          
+            } 
+        case CREATE_HEALTH_POST_BEGIN:
+            return {
+                ...state,
+                isEditing: true
+            }
+        case CREATE_HEALTH_POST_SUCCESS:
+            return {
+                ...state,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'New Post Created'
+            }  
+        case CREATE_HEALTH_POST_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg
+            } 
+        case CREATE_EVENT_BEGIN:
+            return {
+                ...state,
+                isEditing: true
+            }
+        case CREATE_EVENT_SUCCESS:
+            return {
+                ...state,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'New Event Created'
+            }  
+        case CREATE_EVENT_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg
+            } 
         default:
             throw new Error(`no such action :${action.type}`)
     }

@@ -1,9 +1,10 @@
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
-import {FormRow, Alert} from '../../Components'
+import {Alert} from '../../Components'
 import { useAppContext } from '../../context/appContext'
 
 export const AddPost = () => {
   const {
+    isLoading,
     showAlert,
     displayAlert,
     isEditing,
@@ -66,6 +67,7 @@ export const AddPost = () => {
             className="btn btn-block submit-btn" 
             type='submit'
             onClick={handleSubmit}
+            disabled={isLoading}
             >
             submit
             </button>

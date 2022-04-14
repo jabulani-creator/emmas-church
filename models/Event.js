@@ -1,0 +1,24 @@
+import mongoose from 'mongoose'
+
+const EventSchema = new mongoose.Schema({
+    eventTitle: {
+        type: String,
+        required: [true, 'please provide event title'],
+        maxlength: 100,
+        unique: true
+    },
+    date: {
+        type: String,
+        required: [true, 'please provide post event date']
+    },
+    eventPhoto: {
+        type: String
+    },
+    createdBy: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Please provide user'],
+      },
+},{timestamps: true})
+
+export default mongoose.model('Event', EventSchema)

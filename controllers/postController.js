@@ -1,6 +1,6 @@
 import Post from "../models/Post.js"
 import { StatusCodes } from "http-status-codes"
-import {BadRequestError, NotFoundError} from '../errors/index.js'
+import {BadRequestError} from '../errors/index.js'
 
 const createPost = async (req, res) => {
     const {postTitle, postDesc} = req.body

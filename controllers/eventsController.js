@@ -1,5 +1,19 @@
+import Event from "../models/Event.js"
+import { StatusCodes } from "http-status-codes"
+import { BadRequestError } from "../errors/index.js"
+
+
 const createEvent = async (req, res) => {
-    res.send('create Event')
+    const {eventTitle, date, eventPhoto} = req.body
+
+    if(!eventTitle || !date || !eventPhoto){
+        throw new BadRequestError('Please Provide All Values')
+    }
+
+    req.body.createdBy = req.user.userId
+
+    const event = await Event.create(req.body)
+    res.status(StatusCodes.CREATED).json({event})
 }
 const deleteEvent = async (req, res) => {
     res.send('delete event')
