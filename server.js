@@ -1,3 +1,4 @@
+import path  from 'path'
 import express from 'express'
 const app = express()
 import dotenv from 'dotenv'
@@ -13,6 +14,7 @@ import authRouter from './routes/AuthRoutes.js'
 import postsRouter from './routes/postRoute.js'
 import eventsRouter from './routes/eventsRoute.js'
 import healthRouter from './routes/healthRoute.js'
+import uploadRouter from './routes/uploadRoute.js'
 
 //middleware
 import notFoundMiddleware from './middleware/not-found.js'
@@ -31,6 +33,10 @@ app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/posts', postsRouter)
 app.use('/api/v1/events', eventsRouter)
 app.use('/api/v1/health', healthRouter)
+
+
+const __dirname = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
