@@ -6,7 +6,9 @@ import { CarouselContainer, CardContainer, Slider} from "./reviewElement";
 
 
 export const Reviews = () => {
+  /* eslint-disable no-unused-vars */
     const [reviews, setReviews] = useState(ReviewData);
+    /* eslint-disable no-unused-vars */
     const breakPoints = [
       { width: 1, itemsToShow: 1 },
       { width: 500, itemsToShow: 1},

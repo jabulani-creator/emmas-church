@@ -8,13 +8,12 @@ export const AddHealth = () => {
     showAlert,
     displayAlert,
     isEditing,
-    editPostId,
     healthTitle,
     healthDesc,
-    healthPhoto,
     clearValues,
     handleChange,
-    createHealthPost
+    createHealthPost,
+    editHealth
   } = useAppContext()
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -24,6 +23,7 @@ export const AddHealth = () => {
       return
     }
     if(isEditing){
+      editHealth()
       return
     }
     createHealthPost()
@@ -58,10 +58,10 @@ export const AddHealth = () => {
              onChange={handlePostInput}
            />
         </div>
-        <input
+        {/* <input
             type="file"
             name="postPhoto"
-          />
+          /> */}
           <div className="btn-container">
             <button 
             className="btn btn-block submit-btn" 

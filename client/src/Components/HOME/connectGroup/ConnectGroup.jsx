@@ -5,7 +5,9 @@ import { useState } from "react";
 import { CarouselContainer, CardContainer, Slider, CarouselHeader } from "./connectGroupElement";
 
 export const ConnectGroup = () => {
+  /* eslint-disable no-unused-vars */
     const [groups, setGroups] = useState(connectData);
+    /* eslint-disable no-unused-vars */
     const breakPoints = [
       { width: 1, itemsToShow: 1 },
       { width: 500, itemsToShow: 1},

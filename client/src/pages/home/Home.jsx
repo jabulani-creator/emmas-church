@@ -1,15 +1,12 @@
-import React, { useState } from 'react'
 import { 
     Footer, Header, Navigation, Worship,
-    Pastor, ConnectGroup, Health, Events,
+    Pastor, ConnectGroup, HealthMain, Events,
     Prayer, Podcast, Tithe, SabbathSchool,
     WeeklyBulleting,
     Figuring
 } from '../../Components/HOME'
-import topic from './figuringElement'
 
 export const Home = () => {
-    const [posts, setPosts] = useState(topic)
   return (
      <>
      <Navigation />
@@ -17,14 +14,14 @@ export const Home = () => {
      <Worship />
      <Pastor />
      <ConnectGroup />
-     <Health />
+     <HealthMain />
      <Events />
      <Prayer />
      <Podcast />
      <Tithe />
      <SabbathSchool />
      <WeeklyBulleting />
-     <Figuring posts={posts} />
+     <Figuring />
      <Footer />
      </>
   )

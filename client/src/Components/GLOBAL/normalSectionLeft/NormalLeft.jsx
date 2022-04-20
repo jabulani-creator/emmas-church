@@ -6,7 +6,7 @@ export const NormalLeft = ({title, paragraph}) => {
     <section className="section primary left">
         <h1 className="title left">{title}</h1>
         <p className="right-paragraph">
-          {readMore ? {paragraph} : `${paragraph.substring(0, 400)}...`}
+          {readMore ? paragraph : `${paragraph.substring(0, 400)}...`}
           <button className="btn-read" onClick={() => setReadMore(!readMore)}>
           {readMore ? 'show less' : 'read more'}
           </button>

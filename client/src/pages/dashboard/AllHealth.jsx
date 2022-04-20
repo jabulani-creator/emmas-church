@@ -1,7 +1,10 @@
-import React from 'react'
+import {HealthContainer, HealthSearchContainer} from "../../Components"
 
 export const AllHealth = () => {
   return (
-    <div>AllHealth</div>
+     <>
+     <HealthSearchContainer />
+     <HealthContainer />
+     </>
   )
 }

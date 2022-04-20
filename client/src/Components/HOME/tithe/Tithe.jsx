@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import message from './healtData'
 
 export const Tithe = () => {
+  /* eslint-disable no-unused-vars */
     const [Message, setMessage] = useState(message)
+    /* eslint-disable no-unused-vars */
     const [readMore, setReadMore] = useState(false)
   return (
     <section className="section primary">

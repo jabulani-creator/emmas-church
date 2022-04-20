@@ -9,6 +9,7 @@
     "axios": "^0.26.1",
     "history": "5",
     "leaflet": "^1.7.1",
+    "moment": "^2.29.3",
     "normalize.css": "^8.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

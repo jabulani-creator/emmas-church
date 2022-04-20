@@ -4,7 +4,9 @@ import Min from './ministryData'
 import {FlexContainer, Item} from './ministryElement'
 
 export const Ministry = () => {
+    /* eslint-disable no-unused-vars */
     const [data, setData] = useState(Min)
+    /* eslint-disable no-unused-vars */
   return (
       <FlexContainer>
                 <Item>

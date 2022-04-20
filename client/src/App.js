@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Youth, Children,GeneralMinistry } from './Components/MINISTRIES';
-import { Error, Register, Landing, Home, About, New, Ministries, Media, Contact, Resources, Post } from './pages';
+import { Error, Register, Landing, Home, About, New, Ministries, Media, Contact, Resources, SinglePost } from './pages';
 import { OurBeliefs } from './pages/about/OurBeliefs';
 import { OurHistory } from './pages/about/OurHistory';
 import { AddEvent, AddHealth, AddPost, AllEvents, AllHealth, AllPost, Profile, ProtectedRoute, Request, SharedLayout } from './pages/dashboard';
@@ -25,7 +25,7 @@ function App() {
        <Route path='profile' element={<Profile />} />
      </Route>
      <Route path='/' exact element={<Home />} />
-     <Route path='/post/:postId' element={<Post />}/>
+     <Route path='/post/:postId' element={<SinglePost />}/>
      <Route path='/register' element={<Register />} />
      <Route path="/landing" element={<Landing />} />
      <Route path='/about' element={<About />} />

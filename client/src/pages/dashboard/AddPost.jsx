@@ -8,10 +8,9 @@ export const AddPost = () => {
     showAlert,
     displayAlert,
     isEditing,
-    editPostId,
+    editPost,
     postTitle,
     postDesc,
-    postPhoto,
     clearValues,
     handleChange,
     createPost
@@ -24,6 +23,7 @@ export const AddPost = () => {
       return
     }
     if(isEditing){
+      editPost()
       return
     }
     createPost()
@@ -58,10 +58,10 @@ export const AddPost = () => {
              onChange={handlePostInput}
            />
         </div>
-        <input
+        {/* <input
             type="file"
             name="postPhoto"
-          />
+          /> */}
           <div className="btn-container">
             <button 
             className="btn btn-block submit-btn" 

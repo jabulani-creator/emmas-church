@@ -8,7 +8,6 @@ export const AddEvent = () => {
     showAlert,
     displayAlert,
     isEditing,
-    editPostId,
     eventTitle,
     date,
     eventPhoto,

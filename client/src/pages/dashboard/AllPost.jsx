@@ -1,7 +1,11 @@
-import React from 'react'
+import { PostsContainer, SearchContainer } from "../../Components"
+
 
 export const AllPost = () => {
   return (
-    <div>AllPost</div>
+    <>
+    <SearchContainer />
+    <PostsContainer />
+    </>
   )
 }

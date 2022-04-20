@@ -17,9 +17,24 @@ import {
     CREATE_HEALTH_POST_ERROR,
     CREATE_EVENT_SUCCESS,
     CREATE_EVENT_ERROR,
-    CREATE_EVENT_BEGIN
+    CREATE_EVENT_BEGIN,
+    GET_POST_BEGIN,
+    GET_POST_SUCCESS,
+    GET_HEALTH_POST_BEGIN,
+    GET_HEALTH_POST_SUCCESS,
+    SET_EDIT_POST,
+    DELETE_POST_BEGIN,
+    EDIT_POST_BEGIN,
+    EDIT_POST_SUCCESS,
+    EDIT_POST_ERROR,
+    SET_EDIT_HEALTH_POST,
+    DELETE_HEALTH_POST_BEGIN,
+    EDIT_HEALTH_POST_BEGIN,
+    EDIT_HEALTH_POST_SUCCESS,
+    EDIT_HEALTH_POST_ERROR,
+    CLEAR_FILTERS,
+    CHANGE_PAGE
 } from "./actions"
-import { initialState } from "./appContext"
 const reducer = (state, action) => {
     switch(action.type)
     {
@@ -125,6 +140,7 @@ const reducer = (state, action) => {
         case HANDLE_CHANGE:
             return {
                 ...state,
+                page: 1,
                 [action.payload.name]: action.payload.value
             } 
         case CLEAR_VALUES:
@@ -133,13 +149,10 @@ const reducer = (state, action) => {
                editPostId: '',
                postTitle: '',
                postDesc: '',
-               postPhoto: '',
                healthTitle: '',
                healthDesc: '',
-               healthPhoto: '',
                eventTitle: '',
                date: '',
-               eventPhoto: ''
             }  
             return {...state, ...initialState} 
         case CREATE_POST_BEGIN:
@@ -150,6 +163,7 @@ const reducer = (state, action) => {
         case CREATE_POST_SUCCESS:
             return {
                 ...state,
+                isLoading: false,
                 showAlert: true,
                 alertType: 'success',
                 alertText: 'New Post Created'
@@ -162,6 +176,59 @@ const reducer = (state, action) => {
                 alertType: 'danger',
                 alertText: action.payload.msg
             } 
+        case GET_POST_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
+            }
+        case GET_POST_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                posts: action.payload.posts,
+                totalPost: action.payload.totalPost,
+                numOfpages: action.payload.numOfpages,
+            }  
+        case SET_EDIT_POST:
+            const post = state.posts.find((post) => post._id === action.payload.id) 
+            const {postTitle, postDesc} = post 
+            return {
+                ...state,
+                isEditing: true,
+                editPostId: post._id,
+                postTitle,
+                postDesc,
+            }  
+        case DELETE_POST_BEGIN:
+            return {
+                ...state,
+                isLoading: true
+            } 
+        case EDIT_POST_BEGIN:
+            return{
+                ...state,
+                isLoading: true
+            }  
+        case EDIT_POST_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'Post Updated'
+            }     
+        case EDIT_POST_ERROR: 
+        return {
+            ...state,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: action.payload.msg,
+        } 
+        case CHANGE_PAGE:
+            return {
+             ...state,
+             page: action.payload.page
+            }    
         case CREATE_HEALTH_POST_BEGIN:
             return {
                 ...state,
@@ -172,7 +239,7 @@ const reducer = (state, action) => {
                 ...state,
                 showAlert: true,
                 alertType: 'success',
-                alertText: 'New Post Created'
+                alertText: 'New Health Tip Created'
             }  
         case CREATE_HEALTH_POST_ERROR:
             return {
@@ -182,6 +249,66 @@ const reducer = (state, action) => {
                 alertType: 'danger',
                 alertText: action.payload.msg
             } 
+        case GET_HEALTH_POST_BEGIN:
+                return {
+                    ...state,
+                    isLoading: true,
+                    showAlert: false,
+                }
+        case GET_HEALTH_POST_SUCCESS:
+                return {
+                    ...state,
+                    isLoading: false,
+                    healthPosts: action.payload.healthPosts,
+                    totalHealthPost: action.payload.totalHealthPost,
+                    numOfHealthPages: action.payload.numOfHealthPages,
+                } 
+        case CLEAR_FILTERS:
+            return {
+                ...state,
+                search: '',
+                sort: 'latest',
+                healthSearch: '',
+                healthSort: 'latest'
+
+            }           
+        case SET_EDIT_HEALTH_POST:
+            const healthtip = state.healthPosts.find((tip) => tip._id === action.payload.id)
+            const {_id, healthTitle, healthDesc} = healthtip
+            return {
+                ...state,
+                isEditing: true,
+                editHealthId: _id,
+                healthTitle,
+                healthDesc
+            }
+        case DELETE_HEALTH_POST_BEGIN: 
+           return {
+               ...state,
+               isLoading: true
+           } 
+        case EDIT_HEALTH_POST_BEGIN:
+            return {
+                ...state,
+                isLoading: true
+            }      
+        case EDIT_HEALTH_POST_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'Health Tip Updated',
+            }    
+        case EDIT_HEALTH_POST_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg,
+            }    
+                  
         case CREATE_EVENT_BEGIN:
             return {
                 ...state,

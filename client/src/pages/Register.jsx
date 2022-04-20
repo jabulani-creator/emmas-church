@@ -15,7 +15,7 @@ const initialState = {
 export const Register = () => {
    const [values, setValues] = useState(initialState)
    const navigate = useNavigate()
-   const {user, isLoading, showAlert, displayAlert, loginUser, registerUser} = useAppContext()
+   const {user, isLoading, displayAlert, loginUser, registerUser} = useAppContext()
    const toggleMember = () => {
        setValues({...values, isMember: !values.isMember})
    }

@@ -3,18 +3,17 @@ import mongoose from 'mongoose'
 const HealthSchema = new mongoose.Schema({
     healthTitle: {
         type: String,
-        required: [true, 'please provide health tip title'],
+        required: [true, 'please provide post title'],
         maxlength: 100,
-        unique: true
     },
     healthDesc: {
         type: String,
         required: [true, 'please provide health post description']
     },
-    healthPhoto: {
-        type: String
-        // required: [true, 'please provide post image']
-    },
+    // healthPhoto: {
+    //     type: String
+    //     // required: [true, 'please provide post image']
+    // },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

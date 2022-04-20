@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
-import message from './healtData'
+import moment from 'moment'
 
-export const Health = () => {
-    const [Message, setMessage] = useState(message)
+export const Health = ({_id, healthTitle, healthDesc, createdAt}) => {
     const [readMore, setReadMore] = useState(false)
+    let date = moment(createdAt)
+    date = date.format('MMM Do, YYYY')
+
   return (
     <section className="section primary">
-        <h1 className="title">weekly health tip</h1>
-        <p className="right-paragraph">
-            {readMore ? Message : `${Message.substring(0, 500)}...`}
+              <h4>{healthTitle}</h4>
+              <small>{date}</small>
+              <p className="right-paragraph">
+                {readMore ? healthDesc : `${healthDesc.substring(0, 500)}...`}
             <button className='btn-read' onClick={() => setReadMore(!readMore)}>
                 {readMore ? 'show less' : 'read more'}
             </button>
-        </p>
+        </p>    
     </section>
   )
 }

@@ -3,7 +3,9 @@ import { NormalFlex, LearnMore } from '../../GLOBAL'
 import message from './BeliefsData'
 import { SingleBeliefGod, SingleBeliefHumanity, SingleBeliefSalvation, SingleBeliefLiving, SingleBeliefRestoration, SingleBeliefChurch } from '../individualbelief/index'
 export const Beliefs = () => {
+    /* eslint-disable no-unused-vars */
     const [Message, setMessage] = useState(message)
+    /* eslint-disable no-unused-vars */
     const [readMore, setReadMore] = useState(false)
   return (
     <section className="section ">

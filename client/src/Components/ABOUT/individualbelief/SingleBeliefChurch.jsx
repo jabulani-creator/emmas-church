@@ -5,7 +5,9 @@ import { NormalLeft } from "../../GLOBAL"
 
 
 export const SingleBeliefChurch = () => {
+  /* eslint-disable no-unused-vars */
     const [data, setData] = useState(Church);
+    /* eslint-disable no-unused-vars */
   return (
     <> <NormalLeft title="CHURCH" paragraph="After Jesus’ ministry on earth, He commissioned His followers to go about their lives telling others about His love and promise to return. In doing this, He also commanded to love all people as He loves all of us. 
 
