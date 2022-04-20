@@ -14,6 +14,7 @@ import authRouter from './routes/AuthRoutes.js'
 import postsRouter from './routes/postRoute.js'
 import eventsRouter from './routes/eventsRoute.js'
 import healthRouter from './routes/healthRoute.js'
+import contactRouter from './routes/ContactRoute.js'
 import uploadRouter from './routes/uploadRoute.js'
 
 //middleware
@@ -33,6 +34,7 @@ app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/posts', postsRouter)
 app.use('/api/v1/events', eventsRouter)
 app.use('/api/v1/health', healthRouter)
+app.use('/api/v1/contact', contactRouter)
 
 
 const __dirname = path.resolve()

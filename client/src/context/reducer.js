@@ -33,11 +33,23 @@ import {
     EDIT_HEALTH_POST_SUCCESS,
     EDIT_HEALTH_POST_ERROR,
     CLEAR_FILTERS,
-    CHANGE_PAGE
+    CHANGE_PAGE,
+    CREATE_REQUEST_BEGIN,
+    CREATE_REQUEST_SUCCESS,
+    CREATE_REQUEST_ERROR
 } from "./actions"
+
+import { initialState } from './appContext'
 const reducer = (state, action) => {
     switch(action.type)
     {
+        case LOGOUT_USER:
+            return {
+                ...initialState,
+                user: null,
+                token: null,
+                userPosition: '',
+            }
         case DISPLAY_ALERT:
             return {
                 ...state,
@@ -106,13 +118,7 @@ const reducer = (state, action) => {
                     ...state,
                     showSidebar: !state.showSidebar
                 } 
-        case LOGOUT_USER:
-            return {
-                ...initialState,
-                user: null,
-                token: null,
-                userPosition: '',
-            } 
+
         case UPDATE_USER_BEGIN:
             return {
                 ...state,
@@ -153,6 +159,11 @@ const reducer = (state, action) => {
                healthDesc: '',
                eventTitle: '',
                date: '',
+               name: '',
+               phone: '',
+               email: '',
+               message: '',
+               purpose: 'prayer',
             }  
             return {...state, ...initialState} 
         case CREATE_POST_BEGIN:
@@ -307,8 +318,7 @@ const reducer = (state, action) => {
                 showAlert: true,
                 alertType: 'danger',
                 alertText: action.payload.msg,
-            }    
-                  
+            }           
         case CREATE_EVENT_BEGIN:
             return {
                 ...state,
@@ -329,6 +339,27 @@ const reducer = (state, action) => {
                 alertType: 'danger',
                 alertText: action.payload.msg
             } 
+        case CREATE_REQUEST_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
+            }    
+        case CREATE_REQUEST_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'Form submitted'
+            }    
+        case CREATE_REQUEST_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'danger',
+                alertText: action.payload.msg,
+            }    
         default:
             throw new Error(`no such action :${action.type}`)
     }

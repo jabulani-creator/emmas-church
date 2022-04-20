@@ -1,5 +1,5 @@
 import React, {useReducer, useContext } from "react"
-import { CLEAR_ALERT, DISPLAY_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, TOGGLE_SIDEBAR, LOGOUT_USER, UPDATE_USER_BEGIN, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_VALUES, CREATE_POST_BEGIN, CREATE_POST_SUCCESS, CREATE_POST_ERROR, CREATE_HEALTH_POST_BEGIN, CREATE_HEALTH_POST_SUCCESS, CREATE_HEALTH_POST_ERROR, CREATE_EVENT_BEGIN, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, GET_POST_BEGIN, GET_POST_SUCCESS, GET_HEALTH_POST_BEGIN, GET_HEALTH_POST_SUCCESS, SET_EDIT_POST, DELETE_POST_BEGIN, EDIT_POST_BEGIN, EDIT_POST_SUCCESS, EDIT_POST_ERROR, SET_EDIT_HEALTH_POST, DELETE_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_SUCCESS, EDIT_HEALTH_POST_ERROR, CLEAR_FILTERS, CHANGE_PAGE} from "./actions"
+import { CLEAR_ALERT, DISPLAY_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, TOGGLE_SIDEBAR, LOGOUT_USER, UPDATE_USER_BEGIN, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_VALUES, CREATE_POST_BEGIN, CREATE_POST_SUCCESS, CREATE_POST_ERROR, CREATE_HEALTH_POST_BEGIN, CREATE_HEALTH_POST_SUCCESS, CREATE_HEALTH_POST_ERROR, CREATE_EVENT_BEGIN, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, GET_POST_BEGIN, GET_POST_SUCCESS, GET_HEALTH_POST_BEGIN, GET_HEALTH_POST_SUCCESS, SET_EDIT_POST, DELETE_POST_BEGIN, EDIT_POST_BEGIN, EDIT_POST_SUCCESS, EDIT_POST_ERROR, SET_EDIT_HEALTH_POST, DELETE_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_SUCCESS, EDIT_HEALTH_POST_ERROR, CLEAR_FILTERS, CHANGE_PAGE, CREATE_REQUEST_BEGIN, CREATE_REQUEST_SUCCESS, CREATE_REQUEST_ERROR} from "./actions"
 import axios from 'axios'
 
 import reducer from "./reducer"
@@ -36,7 +36,13 @@ export const initialState = {
     healthSearch: '',
     healthSort: 'latest',
     healthSortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
-    
+    name: '',
+    phone: '',
+    email: '',
+    date: '',
+    message: '',
+    purposeOptions: ['prayer', 'baptism', 'membership', 'wedding'],
+    purpose: 'prayer',
   }
 
   const AppContext = React.createContext()
@@ -273,6 +279,32 @@ export const initialState = {
         dispatch({type: CHANGE_PAGE, payload: { page}})
       }
 
+      const createRequest = async () => {
+        dispatch({type: CREATE_REQUEST_BEGIN})
+
+        try {
+          const {name, date, phone,purpose, email, message } = state
+
+           await axios.post('/api/v1/contact',{
+             name,
+             date,
+             phone,
+             purpose,
+             email, 
+             message
+          })
+          dispatch({ type: CREATE_REQUEST_SUCCESS })
+          dispatch({type: CLEAR_VALUES})
+        } catch (error) {
+          dispatch({
+            type: CREATE_REQUEST_ERROR,
+            payload: {msg: error.response.data.msg}
+          })
+          
+        }
+        clearAlert()
+      }
+
       const getHealthPost = async () => {
         const {healthSearch, healthSort, page} = state
         let url = `/api/v1/health?page=${page}&healthSort=${healthSort}`
@@ -380,7 +412,7 @@ export const initialState = {
              createPost, createHealthPost, createEvent, getPosts,
              getHealthPost, setEditPost, deletePost, editPost,
              setEditHealthPost, deleteHealthPost, editHealth, clearFilters,
-             changePage
+             changePage, createRequest
          }}
          >
           {children}

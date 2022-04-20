@@ -1,38 +1,106 @@
-import React from 'react'
+import { useAppContext } from '../../../context/appContext'
+import {FormRow, FormRowSelect, Alert} from '../../index'
 
 export const Form = () => {
+  const {
+     isLoading,
+     showAlert,
+     displayAlert,
+     name, 
+     phone, 
+     purpose, 
+     purposeOptions,  
+     email, 
+     date, 
+     message,
+     handleChange,
+     clearValues,
+     createRequest
+    } = useAppContext()
+ 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if(!name || !phone){
+      displayAlert()
+      return
+    }
+     createRequest()
+  }
+
+  const handleContactInput = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+    handleChange({name, value})
+  }
   return (
     <form className="form">
-        <div className="form-row">
-        <label htmlFor="name" className="form-label">Name</label>
-        <input type="text" placeholder='john doe' name='name' className='form-input' />
-        </div>
-        <div className="form-row">
-        <label htmlFor="email" className="form-label">Email</label>
-        <input type="text" placeholder='victoria@gmail.com' name='email' className='form-input' />
-        </div>
-        <div className="form-row">
-        <label htmlFor="phone" className="form-label">Phone</label>
-        <input type="phone" placeholder='+260972975737' name='phone' className='form-input' />
-        </div>
-        <div className="form-row">
-        <label htmlFor="date" className="form-label">Planned visit date</label>
-        <input type="date"  name='date' className='form-input' />
-        </div>
-        <div className="form-row">
-        <label htmlFor="purpose" className="form-label">Purpose</label>
-        <select id="purpose" className='form-select'>
-                <option value="baptism">Baptism</option>
-                <option value="prayer">Prayer</option>
-                <option value="membership">Membership</option>
-                <option value="wedding">Wedding</option>   
-            </select>
-        </div>
-        <div className="form-row">
+       {showAlert && <Alert />}
+        <FormRow
+           type='text'
+           name='name'
+           value={name}
+           placeholder='john doe'
+           handleChange={handleContactInput}
+           />
+        <FormRow
+           type='email'
+           name='email'
+           value={email}
+           placeholder='victoria@gmail.com'
+           handleChange={handleContactInput}
+           />
+        <FormRow
+           type='text'
+           name='phone'
+           value={phone}
+           placeholder='+260972975737'
+           handleChange={handleContactInput}
+           />
+        <FormRow
+           labelText='Planned visit date'
+           type='text'
+           name='date'
+           value={date}
+           placeholder='MM/DD/YYYY'
+           handleChange={handleContactInput}
+           />
+           <FormRowSelect
+              labelText='purpose'
+              name='purpose'
+              value={purpose}
+              list={purposeOptions}
+              handleChange={handleContactInput}
+              />
+           <div className="form-row">
         <label htmlFor="message" className="form-label">Message</label>
-        <textarea name="message" className='form-textarea' placeholder='Anything that you want to share with us regarding your family? Special needs we want to serve you!'></textarea>
+        <textarea 
+             name="message"
+             value={message}
+             className='form-textarea'
+             onChange={handleContactInput}
+
+           />
         </div>
-        <button className="btnn">SEND MESSAGE</button>
+        <div className="btn-container">
+        <button 
+            className="btnn" 
+            type='submit'
+            onClick={handleSubmit}
+            disabled={isLoading}
+            >
+           Send Message
+        </button>
+        <button 
+        className="btnc"
+        onClick={(e) => {
+          e.preventDefault()
+          clearValues()
+        }}
+        >clear fields </button>
+
+        </div>
+       
         
     </form>
   )
