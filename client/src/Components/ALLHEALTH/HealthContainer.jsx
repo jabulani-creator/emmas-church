@@ -12,14 +12,14 @@ export const HealthContainer = () => {
         isLoading,
         totalHealthPost,
         page,
-        healthSearch,
-        healthSort,
+        search,
+        sort,
     } = useAppContext()
 
     useEffect(() => {
         getHealthPost()
         // eslint-disable-next-line
-    },[healthSort, healthSearch, page])
+    },[sort, search, page])
 
     if(isLoading){
         return <Loading />
@@ -40,6 +40,7 @@ export const HealthContainer = () => {
             {healthPosts.map((tip) => {
                 return <Health key={tip._id} {...tip} />
             })}
+           
         </div>
         <HealthPageBtnContainer />
     </Wrapper>

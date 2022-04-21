@@ -5,9 +5,9 @@ import Wrapper from '../../assets/wrappers/SearchContainer'
 export const HealthSearchContainer = () => {
   const {
     isLoading,
-    healthSearch,
-    healthSort,
-    healthSortOptions,
+    search,
+    sort,
+    sortOptions,
     handleChange,
     clearFilters,
   } = useAppContext()
@@ -28,15 +28,15 @@ export const HealthSearchContainer = () => {
         <div className="form-center">
         <FormRow
           type='text'
-          name='healthSearch'
-          value={healthSearch}
+          name='search'
+          value={search}
           handleChange={handleSearch}
           />
           <FormRowSelect 
-          name='healthSort'
-          value={healthSort}
+          name='sort'
+          value={sort}
           handleChange={handleSearch}
-          list={healthSortOptions}
+          list={sortOptions}
           />
           <button 
           className="btn btn-block btn-danger"

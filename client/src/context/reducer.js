@@ -282,8 +282,6 @@ const reducer = (state, action) => {
                 ...state,
                 search: '',
                 sort: 'latest',
-                healthSearch: '',
-                healthSort: 'latest',
                 searchPurpose: 'all'
 
             }           

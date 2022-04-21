@@ -33,9 +33,6 @@ export const initialState = {
     search: '',
     sort: 'latest',
     sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
-    healthSearch: '',
-    healthSort: 'latest',
-    healthSortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
     name: '',
     phone: '',
     email: '',
@@ -310,10 +307,10 @@ export const initialState = {
       }
 
       const getHealthPost = async () => {
-        const {healthSearch, healthSort, page} = state
-        let url = `/api/v1/health?page=${page}&healthSort=${healthSort}`
-        if(healthSearch){
-          url = url + `&healthSearch=${healthSearch}`
+        const {search, sort, page} = state
+        let url = `/api/v1/health?page=${page}&sort=${sort}`
+        if(search){
+          url = url + `&search=${search}`
         }
         dispatch({type: GET_HEALTH_POST_BEGIN})
         try {

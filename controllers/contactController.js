@@ -54,8 +54,5 @@ const getAllRequest = async (req, res) => {
    res.status(StatusCodes.OK).json({requests, totalRequests , numOfRequestPages})
 }
 
-const updateRequest = async (req, res) => {
-    res.send('update request')
-}
 
-export {createRequest, deleteRequest, getAllRequest, updateRequest}
+export {createRequest, deleteRequest, getAllRequest}

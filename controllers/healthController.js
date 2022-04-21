@@ -33,27 +33,27 @@ const deleteHealthPost = async (req, res) => {
     res.status(StatusCodes.OK).json({msg: 'Success! health Tip removed'})
 }
 const getAllHealthPosts = async (req, res) => {
-    const {healthSearch, healthSort} = req.query
+    const {search, sort} = req.query
         
         const queryObject = {}
 
-        if(healthSearch){
-            queryObject.healthTitle = {$regex: healthSearch, $options: 'i'}
+        if(search){
+            queryObject.healthTitle = {$regex: search, $options: 'i'}
         }
 
         let result = Health.find(queryObject)
 
-        if(healthSort === 'latest'){
+        if(sort === 'latest'){
             result = result.sort('-createdAt')
         }
-        if(healthSort === 'oldest'){
+        if(sort === 'oldest'){
             result = result.sort('createdAt')
         }
-        if(healthSort === 'a-z'){
-            result = result.sort('healthTitle')
+        if(sort === 'a-z'){
+            result = result.sort('postTitle')
         }
-        if(healthSort === 'z-a'){
-            result = result.sort('-healthTitle')
+        if(sort === 'z-a'){
+            result = result.sort('-postTitle')
         }
 
         const page = Number(req.query.page) || 1
