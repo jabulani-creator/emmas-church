@@ -1,5 +1,5 @@
 import React, {useReducer, useContext } from "react"
-import { CLEAR_ALERT, DISPLAY_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, TOGGLE_SIDEBAR, LOGOUT_USER, UPDATE_USER_BEGIN, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_VALUES, CREATE_POST_BEGIN, CREATE_POST_SUCCESS, CREATE_POST_ERROR, CREATE_HEALTH_POST_BEGIN, CREATE_HEALTH_POST_SUCCESS, CREATE_HEALTH_POST_ERROR, CREATE_EVENT_BEGIN, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, GET_POST_BEGIN, GET_POST_SUCCESS, GET_HEALTH_POST_BEGIN, GET_HEALTH_POST_SUCCESS, SET_EDIT_POST, DELETE_POST_BEGIN, EDIT_POST_BEGIN, EDIT_POST_SUCCESS, EDIT_POST_ERROR, SET_EDIT_HEALTH_POST, DELETE_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_SUCCESS, EDIT_HEALTH_POST_ERROR, CLEAR_FILTERS, CHANGE_PAGE, CREATE_REQUEST_BEGIN, CREATE_REQUEST_SUCCESS, CREATE_REQUEST_ERROR} from "./actions"
+import { CLEAR_ALERT, DISPLAY_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, TOGGLE_SIDEBAR, LOGOUT_USER, UPDATE_USER_BEGIN, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_VALUES, CREATE_POST_BEGIN, CREATE_POST_SUCCESS, CREATE_POST_ERROR, CREATE_HEALTH_POST_BEGIN, CREATE_HEALTH_POST_SUCCESS, CREATE_HEALTH_POST_ERROR, CREATE_EVENT_BEGIN, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, GET_POST_BEGIN, GET_POST_SUCCESS, GET_HEALTH_POST_BEGIN, GET_HEALTH_POST_SUCCESS, SET_EDIT_POST, DELETE_POST_BEGIN, EDIT_POST_BEGIN, EDIT_POST_SUCCESS, EDIT_POST_ERROR, SET_EDIT_HEALTH_POST, DELETE_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_SUCCESS, EDIT_HEALTH_POST_ERROR, CLEAR_FILTERS, CHANGE_PAGE, CREATE_REQUEST_BEGIN, CREATE_REQUEST_SUCCESS, CREATE_REQUEST_ERROR, GET_REQUEST_BEGIN, GET_REQUEST_SUCCESS, DELETE_REQUEST_BEGIN} from "./actions"
 import axios from 'axios'
 
 import reducer from "./reducer"
@@ -39,10 +39,14 @@ export const initialState = {
     name: '',
     phone: '',
     email: '',
-    date: '',
+    day: '',
     message: '',
     purposeOptions: ['prayer', 'baptism', 'membership', 'wedding'],
     purpose: 'prayer',
+    requests: [],
+    totalRequests: 0,
+    numOfRequestPages: 1,
+    searchPurpose: 'all'
   }
 
   const AppContext = React.createContext()
@@ -403,6 +407,40 @@ export const initialState = {
         }
       }
 
+      const getRequests = async () => {
+        const {searchPurpose, page } = state
+        let url = `/contact?page=${page}&purpose=${searchPurpose}`
+
+        dispatch({type : GET_REQUEST_BEGIN})
+
+        try {
+          const { data } = await authFetch(url)
+          const {requests, totalRequests,  numOfRequestPages} = data
+          dispatch({
+            type: GET_REQUEST_SUCCESS,
+            payload: {
+              requests,
+              totalRequests,
+              numOfRequestPages
+            }
+          })
+        } catch (error) {
+          console.log(error.response)
+          loginUser()
+        }
+        clearAlert()
+      }
+     
+      const deleteRequest = async (requestId) => {
+         dispatch({type: DELETE_REQUEST_BEGIN})
+         try {
+           await authFetch.delete(`/contact/${requestId}`)
+           getRequests()
+         } catch (error) {
+           loginUser()
+         }
+      }
+
       return (
       <AppContext.Provider
          value={{
@@ -412,8 +450,7 @@ export const initialState = {
              createPost, createHealthPost, createEvent, getPosts,
              getHealthPost, setEditPost, deletePost, editPost,
              setEditHealthPost, deleteHealthPost, editHealth, clearFilters,
-             changePage, createRequest
-         }}
+             changePage, createRequest, getRequests, deleteRequest}}
          >
           {children}
          </AppContext.Provider>

@@ -11,7 +11,7 @@ export const Form = () => {
      purpose, 
      purposeOptions,  
      email, 
-     date, 
+     day, 
      message,
      handleChange,
      clearValues,
@@ -60,8 +60,8 @@ export const Form = () => {
         <FormRow
            labelText='Planned visit date'
            type='text'
-           name='date'
-           value={date}
+           name='day'
+           value={day}
            placeholder='MM/DD/YYYY'
            handleChange={handleContactInput}
            />

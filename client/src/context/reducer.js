@@ -36,7 +36,10 @@ import {
     CHANGE_PAGE,
     CREATE_REQUEST_BEGIN,
     CREATE_REQUEST_SUCCESS,
-    CREATE_REQUEST_ERROR
+    CREATE_REQUEST_ERROR,
+    GET_REQUEST_BEGIN,
+    GET_REQUEST_SUCCESS,
+    DELETE_REQUEST_BEGIN,
 } from "./actions"
 
 import { initialState } from './appContext'
@@ -158,7 +161,7 @@ const reducer = (state, action) => {
                healthTitle: '',
                healthDesc: '',
                eventTitle: '',
-               date: '',
+               day: '',
                name: '',
                phone: '',
                email: '',
@@ -280,7 +283,8 @@ const reducer = (state, action) => {
                 search: '',
                 sort: 'latest',
                 healthSearch: '',
-                healthSort: 'latest'
+                healthSort: 'latest',
+                searchPurpose: 'all'
 
             }           
         case SET_EDIT_HEALTH_POST:
@@ -359,7 +363,25 @@ const reducer = (state, action) => {
                 showAlert: true,
                 alertType: 'danger',
                 alertText: action.payload.msg,
+            }  
+        case GET_REQUEST_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
             }    
+        case GET_REQUEST_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                requests: action.payload.requests,
+                totalRequests: action.payload.totalRequests,
+                numOfRequestPages: action.payload.numOfRequestPages
+            }  
+        case DELETE_REQUEST_BEGIN:
+            return {
+                ...state,
+                isLoading: true,
+            }      
         default:
             throw new Error(`no such action :${action.type}`)
     }

@@ -25,7 +25,7 @@ const ContactSchema = new mongoose.Schema({
     enum: ['prayer', 'baptism', 'membership', 'wedding'],
     default: 'prayer',
   },
-  date: {
+  day: {
     type: String
   },
   message: {

@@ -28,7 +28,7 @@ export const PostsContainer = () => {
     if(posts.length === 0){
      return (
          <Wrapper>
-             <h2>NO jobs to display</h2>
+             <h2>NO post to display</h2>
          </Wrapper>
      )
     }

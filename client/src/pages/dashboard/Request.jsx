@@ -1,7 +1,10 @@
-import React from 'react'
+import { RequestContainer, RequestSearch} from '../../Components'
 
 export const Request = () => {
   return (
-    <div>Request</div>
+    <>
+      <RequestSearch />
+      <RequestContainer />
+    </>
   )
 }

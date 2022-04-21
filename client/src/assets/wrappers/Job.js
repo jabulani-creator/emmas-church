@@ -30,7 +30,7 @@ const Wrapper = styled.article`
     color: var(--white);
     margin-right: 2rem;
   }
-  .info {
+  .infom {
     h5 {
       margin-bottom: 0.25rem;
     }
@@ -55,6 +55,12 @@ const Wrapper = styled.article`
   }
   .content {
     padding: 1rem 1.5rem;
+
+    .contact{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
   .content-center {
     display: grid;

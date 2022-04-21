@@ -12,10 +12,14 @@ import { Health } from "./ALLHEALTH/Health";
 import { HealthContainer } from "./ALLHEALTH/HealthContainer";
 import { HealthSearchContainer } from "./ALLHEALTH/HealthSearchContainer";
 import { FormRowSelect } from "./FormRowSelect";
+import {RequestContainer} from './REQUESTS/RequestContainer'
+import { RequestSearch } from "./REQUESTS/RequestSearch";
+import { RequestPageBtn } from "./RequestPageBtn";
 export {
     HeaderLogin, FormRow, Alert,
     Navbar,SmallSidebar, BigSidebar,
     Posts, PostInfo, SearchContainer,
     PostsContainer, HealthSearchContainer,
-    HealthContainer, Health, FormRowSelect
+    HealthContainer, Health, FormRowSelect,
+    RequestContainer, RequestSearch, RequestPageBtn
 }
