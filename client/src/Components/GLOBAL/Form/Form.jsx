@@ -59,10 +59,10 @@ export const Form = () => {
            />
         <FormRow
            labelText='Planned visit date'
-           type='text'
+           type='date'
            name='day'
            value={day}
-           placeholder='MM/DD/YYYY'
+         //   placeholder='MM/DD/YYYY'
            handleChange={handleContactInput}
            />
            <FormRowSelect

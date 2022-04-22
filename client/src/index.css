@@ -523,6 +523,9 @@ footer {
   transition: var(--transition);
 }
 
+.required{
+  color: var(--red-dark);
+}
 
 
 .overlay-image{

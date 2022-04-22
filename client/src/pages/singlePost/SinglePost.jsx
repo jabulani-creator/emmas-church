@@ -1,14 +1,23 @@
-import { useLocation } from 'react-router-dom'
+import { useParams, Link} from 'react-router-dom'
+import { useEffect } from 'react';
 import { Footer, Header } from '../../Components/GLOBAL';
 import { Navigation } from '../../Components/Navigation';
 import { useAppContext } from '../../context/appContext';
 import {ImageContainer, Message} from './singlePostElement'
 
 export const SinglePost = () => {
-    const location = useLocation()
-    const path = location.pathname.split("/")[2];
+ 
+    const { getPosts, posts} = useAppContext()
+    const {postId} = useParams()
+    useEffect(() => {
+      getPosts()
+      // eslint-disable-next-line
+    },[postId])
 
-    const {postTitle, postDesc} = useAppContext()
+   
+    const post = posts.find((post) => post._id === postId)
+
+    const {postTitle, postDesc} = post
   return (
     <>
     <Navigation />
@@ -21,6 +30,12 @@ export const SinglePost = () => {
         <h4 className="title primary left">{postTitle}</h4>
         <p className="right-paragraph">{postDesc}</p>
         </Message>
+        <button className="btnn">
+              <Link to={`/`}>
+                Back to more posts
+
+              </Link>
+            </button>
     </section>
     <Footer />
     </>

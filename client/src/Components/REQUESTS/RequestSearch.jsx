@@ -9,6 +9,8 @@ export const RequestSearch = () => {
         handleChange,
         clearFilters,
         searchPurpose,
+        sort,
+        sortOptions
     }
     = useAppContext()
 
@@ -30,6 +32,14 @@ export const RequestSearch = () => {
               value={searchPurpose}
               handleChange={handleSearch}
               list={['all', ...purposeOptions]}
+              />
+         
+            <FormRowSelect
+              labelText='sort'
+              name='sort'
+              value={sort}
+              handleChange={handleSearch}
+              list={sortOptions}
               />
          
               <button 

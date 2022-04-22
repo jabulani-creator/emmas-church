@@ -14,13 +14,14 @@ export const RequestContainer = () => {
         page, 
         totalRequests, 
         searchPurpose , 
-        numOfRequestPages
+        numOfRequestPages,
+        sort,
     } = useAppContext()
    
     useEffect(() => {
         getRequests()
          // eslint-disable-next-line
-    },[searchPurpose, page ])
+    },[searchPurpose, page, sort ])
 
     if(isLoading){
         return <Loading />

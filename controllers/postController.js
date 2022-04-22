@@ -95,4 +95,14 @@ const updatePost = async (req, res) => {
     res.status(StatusCodes.OK).json({ updatedPost })
 }
 
-export {createPost, deletePost, getAllPosts, updatePost}
+const getPost = async(req, res) => {
+    const {id: postId} = req.params
+   const post = await Post.findById({_id: postId})
+   if(!post){
+    throw new NotFoundError(`No Post with id ${postId}`)
+   }
+
+   res.status(StatusCodes.OK).json({post})
+}
+
+export {createPost, deletePost, getAllPosts, updatePost, getPost}

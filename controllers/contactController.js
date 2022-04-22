@@ -29,7 +29,7 @@ const deleteRequest = async (req, res) => {
 }
 
 const getAllRequest = async (req, res) => {
-    const { purpose} = req.query
+    const { purpose, sort} = req.query
 
     const queryObject = {
 
@@ -40,9 +40,23 @@ const getAllRequest = async (req, res) => {
 
     let result = Contact.find(queryObject)
 
+    if(sort === 'latest'){
+        result = result.sort('-createdAt')
+    }
+    if(sort === 'oldest'){
+        result = result.sort('createdAt')
+    }
+    if(sort === 'a-z'){
+        result = result.sort('message')
+    }
+    if(sort === 'z-a'){
+        result = result.sort('-message')
+    }
+
+
     const page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || 2
-    const skip = (page - 1) * limit //10
+    const limit = Number(req.query.limit) || 4
+    const skip = (page - 1) * limit 
     result = result.skip(skip).limit(limit)
 
 

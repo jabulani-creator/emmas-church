@@ -1,5 +1,5 @@
-import React, {useReducer, useContext } from "react"
-import { CLEAR_ALERT, DISPLAY_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, TOGGLE_SIDEBAR, LOGOUT_USER, UPDATE_USER_BEGIN, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_VALUES, CREATE_POST_BEGIN, CREATE_POST_SUCCESS, CREATE_POST_ERROR, CREATE_HEALTH_POST_BEGIN, CREATE_HEALTH_POST_SUCCESS, CREATE_HEALTH_POST_ERROR, CREATE_EVENT_BEGIN, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, GET_POST_BEGIN, GET_POST_SUCCESS, GET_HEALTH_POST_BEGIN, GET_HEALTH_POST_SUCCESS, SET_EDIT_POST, DELETE_POST_BEGIN, EDIT_POST_BEGIN, EDIT_POST_SUCCESS, EDIT_POST_ERROR, SET_EDIT_HEALTH_POST, DELETE_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_SUCCESS, EDIT_HEALTH_POST_ERROR, CLEAR_FILTERS, CHANGE_PAGE, CREATE_REQUEST_BEGIN, CREATE_REQUEST_SUCCESS, CREATE_REQUEST_ERROR, GET_REQUEST_BEGIN, GET_REQUEST_SUCCESS, DELETE_REQUEST_BEGIN} from "./actions"
+import React, {useReducer, useContext, useEffect } from "react"
+import { CLEAR_ALERT, DISPLAY_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, TOGGLE_SIDEBAR, LOGOUT_USER, UPDATE_USER_BEGIN, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_VALUES, CREATE_POST_BEGIN, CREATE_POST_SUCCESS, CREATE_POST_ERROR, CREATE_HEALTH_POST_BEGIN, CREATE_HEALTH_POST_SUCCESS, CREATE_HEALTH_POST_ERROR, CREATE_EVENT_BEGIN, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, GET_POST_BEGIN, GET_POST_SUCCESS, GET_HEALTH_POST_BEGIN, GET_HEALTH_POST_SUCCESS, SET_EDIT_POST, DELETE_POST_BEGIN, EDIT_POST_BEGIN, EDIT_POST_SUCCESS, EDIT_POST_ERROR, SET_EDIT_HEALTH_POST, DELETE_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_SUCCESS, EDIT_HEALTH_POST_ERROR, CLEAR_FILTERS, CHANGE_PAGE, CREATE_REQUEST_BEGIN, CREATE_REQUEST_SUCCESS, CREATE_REQUEST_ERROR, GET_REQUEST_BEGIN, GET_REQUEST_SUCCESS, DELETE_REQUEST_BEGIN, GET_SINGLE_POST_BEGIN, GET_SINGLE_POST_SUCCESS, SET_POST_ID} from "./actions"
 import axios from 'axios'
 
 import reducer from "./reducer"
@@ -17,6 +17,7 @@ export const initialState = {
     userPosition:  userPosition || '',
     isEditing: false,
     editPostId: '',
+    PostId: '',
     postTitle: '',
     postDesc: '',
     editHealthId: '',
@@ -24,6 +25,7 @@ export const initialState = {
     healthDesc: '',
     showSidebar: false,
     posts: [],
+    post: null,
     totalPost: 0,
     numOfpages: 1,
     page: 1,
@@ -249,7 +251,27 @@ export const initialState = {
         }
         clearAlert()
       }
+      const setPostId = (id) => {
+        dispatch({type: SET_POST_ID, payload: {id}})
 
+      }
+      // const getPost = async () => {
+      //   dispatch({type: GET_SINGLE_POST_BEGIN})
+      //   try {
+          
+      //     const { data } = await axios.get(`/api/v1/posts/${state.PostId}`)
+  
+        
+      //     dispatch({
+      //       type: GET_SINGLE_POST_SUCCESS,
+      //       payload: {
+              
+      //       }
+      //     })
+      //   } catch (error) {
+      //     console.log(error)
+      //   }
+      // }
       const getPosts = async () => {
         const {page, search, sort} = state
         let url = `/api/v1/posts?page=${page}&sort=${sort}`
@@ -405,8 +427,8 @@ export const initialState = {
       }
 
       const getRequests = async () => {
-        const {searchPurpose, page } = state
-        let url = `/contact?page=${page}&purpose=${searchPurpose}`
+        const {searchPurpose, page, sort } = state
+        let url = `/contact?page=${page}&purpose=${searchPurpose}&sort=${sort}`
 
         dispatch({type : GET_REQUEST_BEGIN})
 
@@ -437,7 +459,7 @@ export const initialState = {
            loginUser()
          }
       }
-
+   
       return (
       <AppContext.Provider
          value={{
@@ -447,7 +469,8 @@ export const initialState = {
              createPost, createHealthPost, createEvent, getPosts,
              getHealthPost, setEditPost, deletePost, editPost,
              setEditHealthPost, deleteHealthPost, editHealth, clearFilters,
-             changePage, createRequest, getRequests, deleteRequest}}
+             changePage, createRequest, getRequests, deleteRequest,setPostId
+            }}
          >
           {children}
          </AppContext.Provider>

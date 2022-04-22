@@ -9,7 +9,7 @@ export const Topic = ({ postTitle, postDesc, _id, createdAt}) => {
   /* eslint-disable no-unused-vars */
   let date = moment(createdAt)
   date = date.format('MMM Do, YYYY')
-  const {setEditPost} = useAppContext()
+  const {setPostId} = useAppContext()
   return (
     <div className='topic'>
       <div className='topic-image'>
@@ -23,7 +23,7 @@ export const Topic = ({ postTitle, postDesc, _id, createdAt}) => {
             </p>
             <button className="btnn">
               <Link to={`/post/${_id}`}
-              onClick={() => setEditPost(_id)}
+               onClick={() => setPostId(_id)}
               >Read Now</Link>
             </button>
         </div>

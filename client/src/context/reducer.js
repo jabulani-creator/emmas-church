@@ -40,6 +40,9 @@ import {
     GET_REQUEST_BEGIN,
     GET_REQUEST_SUCCESS,
     DELETE_REQUEST_BEGIN,
+    GET_SINGLE_POST_BEGIN,
+    GET_SINGLE_POST_SUCCESS,
+    SET_POST_ID,
 } from "./actions"
 
 import { initialState } from './appContext'
@@ -202,6 +205,23 @@ const reducer = (state, action) => {
                 posts: action.payload.posts,
                 totalPost: action.payload.totalPost,
                 numOfpages: action.payload.numOfpages,
+            }  
+        case GET_SINGLE_POST_BEGIN:
+            return{
+                ...state,
+                isLoading: true,
+            }  
+        case GET_SINGLE_POST_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                post: action.payload.post,
+            }      
+        case SET_POST_ID:
+            const p = state.posts.find((p) => p._id === action.payload.id) 
+            return {
+                ...state,
+                PostId: p._id,
             }  
         case SET_EDIT_POST:
             const post = state.posts.find((post) => post._id === action.payload.id) 
