@@ -1,19 +1,16 @@
-import {Time, NormalContainer, ImageContainer, MessageContainer} from './normalElement'
+import Wrapper from '../../../assets/wrappers/Normal'
 
-export const NormalFlex = ({title, message, time, path, service, image, learn}) => {
+export const NormalFlex = ({title, message, time, service, image, learn}) => {
   return (
-    <NormalContainer>
-        <ImageContainer>
+    <Wrapper>
+        <div className='ImageContainer'>
           <img src={image} alt="" className="img" />
-        </ImageContainer>
-        <MessageContainer>
+        </div>
+        <div className='MessageContainer'>
             <h2 className='title left primary'>{title}</h2>
             <p className="subtitle left">{message}</p>
-            {/* <button className="btn">
-            <a href={path}>{learn}</a>
-            </button> */}
-            <Time>{service} {time}</Time>
-        </MessageContainer>
-    </NormalContainer>
+            <h5 className='Time'>{service} {time}</h5>
+        </div>
+    </Wrapper>
   )
 }

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const LessonContainer = styled.div`
+const Wrapper = styled.div`
  display: flex;
  justify-content: space-between;
 
@@ -8,3 +8,4 @@ export const LessonContainer = styled.div`
     flex-direction: column;
 }
 `
+export default Wrapper

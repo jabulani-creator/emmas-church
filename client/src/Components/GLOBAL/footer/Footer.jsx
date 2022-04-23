@@ -1,17 +1,17 @@
 import {FaFacebookSquare, FaWhatsappSquare, FaYoutubeSquare} from 'react-icons/fa'
-import {Mission, Contact, Socials, UsefulLinks, FooterContainer, Menu, Last} from './footerElement'
+import Wrapper from '../../../assets/wrappers/Footer'
 
 export const Footer = () => {
   return (
      <section className="footer">
-    <FooterContainer>
-        <Mission>
+    <Wrapper>
+        <div className='Mission'>
             <h3 className="mini-header">Mission</h3>
             <small className="subtitle left">
                 To Lift up Jesus Christ and Proclaim the Everlasting Gospel to All the World Baptizing them in the name of the Father the Son and the Holy Spirit
             </small>
-        </Mission>
-        <Contact>
+        </div>
+        <div className='Contact'>
         <h3 className="mini-header">Contact</h3>
                 <small className='left'>
                     Emmsdale SDA Church <br />
@@ -20,11 +20,11 @@ export const Footer = () => {
                     +26 0972975737<br />
                     <a href="mailto:jim@rock.com">emmasdale@gmail.com</a><br />
              </small>
-        </Contact>
-        <Last>
-        <Socials>
+        </div>
+        <div className='Last'>
+        <div className='Socials'>
             <h3 className="mini-header">Socials</h3>
-            <Menu className='left'>
+            <div className='left'>
             <li>
                <FaFacebookSquare className='social-icon' /> FaceBook 
             </li>
@@ -34,19 +34,19 @@ export const Footer = () => {
             <li>
                <FaWhatsappSquare className='social-icon'/> Whatsapp
             </li>
-            </Menu>
-        </Socials>
-        <UsefulLinks>
+            </div>
+        </div>
+        <div className='UsefulLinks'>
         <h3 className="mini-header">Useful Links</h3>
-         <Menu className='left'>
+         <div className='left'>
              <li>Sabbath School Podcast</li>
              <li>Adventist Organization</li>
              <li>Adventist World Radio</li>
-         </Menu>
-        </UsefulLinks>
-        </Last>
+         </div>
+        </div>
+        </div>
         
-    </FooterContainer>
+    </Wrapper>
     </section>
   )
 }

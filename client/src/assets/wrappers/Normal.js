@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const NormalContainer = styled.section`
+const Wrapper = styled.section`
 width: var(--fluid-width);
 margin: 0 auto 50px auto;
 display: flex;
@@ -10,20 +10,22 @@ display: flex;
      flex-direction: column;
      margin: 0 auto 20px auto;
  }
-`
-export const ImageContainer = styled.div`
+
+.ImageContainer{
 flex: 1;
 width: 100%;
 height: 80%;
-`
-export const MessageContainer = styled.div`
- flex: 1;
+} 
+.MessageContainer {
+flex: 1;
  margin: 30px;
-`
 
-export const Time = styled.h5`
+ .Time{
 color: var(--primary-60);
 @media screen and (max-width: 768px) {
      font-size: 90%;
  }
- `
+ }
+}
+`
+export default Wrapper

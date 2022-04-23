@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const WeeklyContainer = styled.section`
+const Wrapper = styled.section`
  width: var(--fluid-width);
  margin: auto;
 background-color: var(--primary-500);
@@ -13,10 +13,4 @@ padding: 20px 0 20px 0;
 }
 `
 
-export const Time = styled.h5`
-color: var(--white);
-@media screen and (max-width: 768px) {
-     font-size: 90%;
- }
-
-`
+export default Wrapper

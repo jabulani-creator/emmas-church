@@ -1,11 +1,8 @@
 import styled from "styled-components";
-import {Link} from 'react-router-dom'
-// import {Link as LinkS} from 'react-scroll'
 
-export const Nav = styled.nav`
+const Wrapper = styled.nav`
  background: var(--primary-500);
  height: var(--nav-height);
- /* margin-top: -80px; */
  display: flex;
  justify-content: center;
  align-items: center;
@@ -20,9 +17,7 @@ export const Nav = styled.nav`
      
  }
 
-`
-
-export const NavbarContainer = styled.div`
+ .NavbarContainer{
 display: flex;
 justify-content: space-between;
 height: var(--nav-height);
@@ -30,19 +25,17 @@ z-index: 1;
 padding: 0 24px;
 /* max-width: var(--max-width); */
 width: var(--fluid-width);
-`
+ }
 
-export const NavLogo = styled(Link)`
- color: var(--white);
+ .NavLogo{
+color: var(--white);
  display: flex;
  align-items: center;
  justify-self: flex-start;
  cursor: pointer;
- /* margin-left: 20px; */
  font-weight: bold;
-`
-
-export const MobileIcon = styled.div`
+ }
+ .MobileIcon{
 display: none;
 
 @media screen and (max-width: 768px){
@@ -54,9 +47,10 @@ display: none;
     font-size: 1.8rem;
     cursor: pointer;
     color: var(--white);
+ }    
+
 }
-`
-export const NavMenu = styled.ul`
+.NavMenu{
 display: flex;
 align-items: center;
 list-style: none;
@@ -64,10 +58,8 @@ list-style: none;
 @media screen and (max-width: 768px){
     display: none;
 }
-`
 
-
-export const NavItem = styled(Link)`
+.NavItem {
 height: 80px;
 color: var(--white);
 display: flex;
@@ -76,6 +68,10 @@ text-decoration: none;
 padding: 0 1rem;
 height: 100%;
 cursor: pointer;
-text-transform: uppercase;
+text-transform: uppercase; 
+}
+}
 
 `
+
+export default Wrapper

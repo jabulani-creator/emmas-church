@@ -1,10 +1,10 @@
-import {WeeklyContainer} from './weeklyElement'
+import Wrapper from "../../../assets/wrappers/weeklyContainer"
 
 export const WeeklyBulleting = () => {
   return (
-    <WeeklyContainer>
+    <Wrapper>
         <h1 className="title">weekly bulleting</h1>
         <button className="btnn">Get this weeks bulleting</button>
-    </WeeklyContainer>
+    </Wrapper>
   )
 }

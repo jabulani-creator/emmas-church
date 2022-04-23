@@ -1,6 +1,6 @@
 import { useAppContext } from '../../../context/appContext'
 import { useEffect } from 'react'
-import {LessonContainer} from './figuringElement'
+import Wrapper from '../../../assets/wrappers/Figuering'
 import { Topic } from './Topic'
 
 export const Figuring = () => {
@@ -14,13 +14,13 @@ export const Figuring = () => {
   return (
     <section className="section">
         <h1 className="title primary">still figuring it out? these may help</h1>
-        <LessonContainer>
+        <Wrapper>
          {posts.map((post) => {
            return (
              <Topic key={post._id} {...post} />
            )
          })}
-        </LessonContainer>
+        </Wrapper>
     </section>
   )
 }

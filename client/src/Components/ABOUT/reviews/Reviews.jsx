@@ -2,7 +2,7 @@ import Carousel from "react-elastic-carousel";
 import {ReviewCard} from './ReviewCard';
 import ReviewData from './ReviewData';
 import { useState } from "react";
-import { CarouselContainer, CardContainer, Slider} from "./reviewElement";
+import Wrapper from "../../../assets/wrappers/Review";
 
 
 export const Reviews = () => {
@@ -16,17 +16,17 @@ export const Reviews = () => {
       { width: 1200, itemsToShow: 3 }
     ];
   return (
-    <CarouselContainer>
-    <Slider>
+    <Wrapper>
+    <section className="Slider">
         <h1 className="title primary">What we love about emmasdale sda church</h1>
-        <CardContainer>
+        <div>
         <Carousel breakPoints={breakPoints}>
         {reviews.map((review) => {
         return <ReviewCard key={review.id} {...review} />;
       })}
     </Carousel>
-    </CardContainer>
-    </Slider>
-  </CarouselContainer>
+    </div>
+    </section>
+  </Wrapper>
   )
 }

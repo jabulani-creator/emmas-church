@@ -1,16 +1,16 @@
-import {MainContainer, ImageContainer, Details} from './infoElement'
+import Wrapper from '../../../assets/wrappers/Info'
 export const Info = ({image, name, phone, email, position}) => {
   return (
-    <MainContainer>
-        <ImageContainer>
+    <Wrapper>
+        <div className='ImageContainer'>
          <img src={image} alt="" className="img img-circle" />
-        </ImageContainer>
-        <Details>
+        </div>
+        <div className='Details'>
              <small className='contact '>Name: {name}</small>
              <small className='contact'>Position: {position}</small>
              <small className='contact'>Phone: {phone}</small>
              <small className='contact'>Email: {email}</small>
-        </Details>
-    </MainContainer>
+        </div>
+    </Wrapper>
   )
 }

@@ -1,19 +1,15 @@
 import styled from 'styled-components'
 
-export const PodcastContainer = styled.section`
+const Wrapper = styled.section`
  width: var(--fluid-width);
  margin: auto;
  position: relative;
-`
 
-
-export const PodcastImage = styled.div`
+ .PodcastImage {
 width: var(--fluid-width);
 margin: auto;
-
-`
-
-export const PodcastMessage = styled.div`
+ }
+ .PodcastMessage {
  position: absolute;
  top: 50%;
  left: 35%;
@@ -22,4 +18,6 @@ export const PodcastMessage = styled.div`
  @media screen and (max-width: 768px) {
     left: 3%;
  }
+ }
 `
+export default Wrapper

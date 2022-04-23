@@ -1,15 +1,15 @@
-import {HeroSection, HeroTitle, HeroContainer} from "./headerElement"
+import Wrapper from '../../../assets/wrappers/Header'
 
 export const Header = (props) => {
   return (
     <>
-    <HeroSection>
-      <HeroContainer>
-           <HeroTitle>
+    <Wrapper>
+      <div className="HeroContainer">
+           <h1 className="HeroTitle">
                {props.title}
-            </HeroTitle>
-      </HeroContainer>
-    </HeroSection>
+            </h1>
+      </div>
+    </Wrapper>
     </>
   )
 }

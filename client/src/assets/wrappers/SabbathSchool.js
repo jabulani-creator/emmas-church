@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const SabbathSchoolContainer = styled.div`
+const Wrapper = styled.div`
  display: flex;
  flex-direction: column;
  margin: 50px auto 100px auto;
@@ -8,17 +8,18 @@ export const SabbathSchoolContainer = styled.div`
  @media screen and (max-width: 768px){
     margin: 50px auto 50px auto;
 }
-`
 
-export const SabbathSchoolMessage = styled.div`
- flex: 1;
+.SabbathSchoolMessage{
+flex: 1;
  line-height: var(--line-height);
-`
-export const LessonLink = styled.div`
+}
+
+.LessonLink {
  flex: 1;
  display: flex;
  align-items: center;
  justify-content: center;
-
+}
 `
 
+export default Wrapper

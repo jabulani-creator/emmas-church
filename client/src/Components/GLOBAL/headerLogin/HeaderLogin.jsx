@@ -1,18 +1,18 @@
-import {HeroSection, HeroTitle, HeroContainer} from "./headerElement"
+import Wrapper from "../../../assets/wrappers/HeaderLogin"
 import { Link } from "react-router-dom"
 export const HeaderLogin = (props) => {
   return (
     <>
-    <HeroSection>
-      <HeroContainer>
-           <HeroTitle>
+    <Wrapper>
+      <div className="HeroContainer">
+           <h1 className="HeroTitle">
                {props.title}
-            </HeroTitle>
+            </h1>
             <Link to='/register' className='btnn btn-hero'>
              {props.butt}
             </Link>
-      </HeroContainer>
-    </HeroSection>
+      </div>
+    </Wrapper>
     </>
   )
 }

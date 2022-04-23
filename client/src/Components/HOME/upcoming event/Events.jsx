@@ -1,9 +1,8 @@
 import { useEffect} from "react";
-import { CarouselContainer, CardContainer, Slider} from "./eventElement";
-import Loading from '../../Loading'
 import { useAppContext } from "../../../context/appContext";
 import Carousel from "react-elastic-carousel";
 import EventCard from "./Event/EventCard";
+import Wrapper from '../../../assets/wrappers/Events'
 
 export const Events = () => {
 
@@ -15,24 +14,24 @@ export const Events = () => {
       { width: 1200, itemsToShow: 3 }
     ];
      
-    const {getEvents, events, isLoading, page, totalEvents} = useAppContext()
+    const {getEvents, events, page, totalEvents} = useAppContext()
    useEffect(() => {
     getEvents()
    },[])
 
   return (
-    <CarouselContainer>
-    <Slider>
+    <Wrapper>
+    <section className="Slider">
         <h1 className="title">Upcoming Events</h1>
-        <CardContainer>
+        <div>
         <Carousel breakPoints={breakPoints}>
         {events.map((event) => {
         return <EventCard key={event._id} {...event} />;
       })}
     </Carousel>
-    </CardContainer>
-    </Slider>
-  </CarouselContainer>
+    </div>
+    </section>
+    </Wrapper>
   )
 }
 

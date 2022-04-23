@@ -1,23 +1,23 @@
-import { HeroContainer,HeroSection, HeroTitle, HeroPara } from "./headerElement"
+import Wrapper from "../../../assets/wrappers/Hero"
 
 export const Header = () => {
   return (
     <>
-    <HeroSection>
-        <HeroContainer>
-            <HeroTitle>
+    <Wrapper >
+        <div className="HeroContainer">
+            <h1 className="HeroTitle">
                 Welcome to <br/> Emmasdale Sda <br /> Church
-            </HeroTitle>
-            <HeroPara>
+            </h1>
+            <p className="HeroPara">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                  Unde doloribus corporis dolores quibusdam incidunt 
                  excepturi consequuntur iusto blanditiis laborum 
                  vitae recusandae accusamus, commodi amet dicta
                 veritatis ut architecto molestias autem.
-            </HeroPara>
+            </p>
              <button className="btnn">I am New to Emmasdale</button>
-        </HeroContainer>
-    </HeroSection>
+        </div>
+    </Wrapper>
     </>
   )
 }

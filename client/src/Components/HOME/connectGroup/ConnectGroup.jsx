@@ -2,7 +2,7 @@ import Carousel from "react-elastic-carousel";
 import Card from "./Card";
 import connectData from "./connectData";
 import { useState } from "react";
-import { CarouselContainer, CardContainer, Slider, CarouselHeader } from "./connectGroupElement";
+import Wrapper from "../../../assets/wrappers/Events";
 
 export const ConnectGroup = () => {
   /* eslint-disable no-unused-vars */
@@ -15,21 +15,21 @@ export const ConnectGroup = () => {
       { width: 1200, itemsToShow: 3 }
     ];
   return (
-    <CarouselContainer>
-    <Slider>
+    <Wrapper>
+     <section className="Slider">
         <h1 className="title">Find your Connect Group</h1>
-        <CarouselHeader>
+        <div>
         <p className="subtitle">Join a small group where you can feel at home</p>
-        </CarouselHeader>
-        <CardContainer>
+        </div>
+        <div>
         <Carousel breakPoints={breakPoints}>
         {groups.map((group) => {
         return <Card key={group.id} {...group} />;
       })}
     </Carousel>
-    </CardContainer>
-    </Slider>
-  </CarouselContainer>
+    </div>
+    </section>
+  </Wrapper>
   )
 }
 
