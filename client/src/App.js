@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route} from 'react-router-dom'
+import {  BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Youth, Children,GeneralMinistry } from './Components/MINISTRIES';
 import { Error, Register, Landing, Home, About, New, Ministries, Media, Contact, Resources, SinglePost } from './pages';
 import { OurBeliefs } from './pages/about/OurBeliefs';
@@ -8,7 +8,7 @@ import { AddEvent, AddHealth, AddPost, AllEvents, AllHealth, AllPost, Profile, P
 
 function App() {
   return (
-    <HashRouter>
+    < BrowserRouter>
     <Routes>
      <Route path='/admin' element={
        <ProtectedRoute>
@@ -50,7 +50,7 @@ function App() {
      <Route path='/resources' element={<Resources />} />
       <Route path="*" element={<Error />} />
     </Routes>
-    </HashRouter>
+    </ BrowserRouter>
   );
 }
 

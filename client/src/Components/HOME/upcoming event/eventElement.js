@@ -6,6 +6,10 @@ background: var(--primary-500);
 color: var(--white);
 text-align: center;
 padding: 50px 0;
+
+@media screen and (max-width: 768px ){
+    margin-top: 20px;
+}
 `
 
 export const CardContainer = styled.div`

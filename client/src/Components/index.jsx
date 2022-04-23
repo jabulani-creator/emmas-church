@@ -15,11 +15,14 @@ import { FormRowSelect } from "./FormRowSelect";
 import {RequestContainer} from './REQUESTS/RequestContainer'
 import { RequestSearch } from "./REQUESTS/RequestSearch";
 import { RequestPageBtn } from "./RequestPageBtn";
+import { EventsContainer } from "./EVENTS/EventsContainer";
+import { SearchEvent } from "./EVENTS/SearchEvent";
 export {
     HeaderLogin, FormRow, Alert,
     Navbar,SmallSidebar, BigSidebar,
     Posts, PostInfo, SearchContainer,
     PostsContainer, HealthSearchContainer,
     HealthContainer, Health, FormRowSelect,
-    RequestContainer, RequestSearch, RequestPageBtn
+    RequestContainer, RequestSearch, RequestPageBtn,
+    EventsContainer, SearchEvent
 }

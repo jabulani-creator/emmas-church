@@ -43,6 +43,13 @@ import {
     GET_SINGLE_POST_BEGIN,
     GET_SINGLE_POST_SUCCESS,
     SET_POST_ID,
+    GET_EVENTS_BEGIN,
+    GET_EVENTS_SUCCESS,
+    SET_EDIT_EVENT,
+    DELETE_EVENT_BEGIN,
+    EDIT_EVENT_BEGIN,
+    EDIT_EVENT_SUCCESS,
+    EDIT_EVENT_ERROR,
 } from "./actions"
 
 import { initialState } from './appContext'
@@ -164,7 +171,8 @@ const reducer = (state, action) => {
                healthTitle: '',
                healthDesc: '',
                eventTitle: '',
-               day: '',
+               eventDate: '',
+               eventDesc: '',
                name: '',
                phone: '',
                email: '',
@@ -399,7 +407,57 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 isLoading: true,
-            }      
+            }  
+        case GET_EVENTS_BEGIN:
+            return{
+                ...state,
+                isLoading: true,
+            }        
+        case GET_EVENTS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                events: action.payload.events,
+                totalEvents: action.payload.totalEvents,
+                numOfEventsPages: action.payload.numOfEventsPages
+            }
+        case SET_EDIT_EVENT:
+            const event = state.events.find((event) => event._id === action.payload.id)
+            const {eventTitle, eventDate, eventDesc} = event
+            return {
+                ...state,
+                isEditing: true,
+                editPostId: event._id,
+                eventDate,
+                eventDesc,
+                eventTitle
+            }  
+        case DELETE_EVENT_BEGIN:
+            return {
+                ...state,
+                isLoading: true
+            }    
+        case EDIT_EVENT_BEGIN:
+            return {
+                ...state,
+                isLoading: true
+            }  
+        case EDIT_EVENT_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                showAlert: true,
+                alertType: 'success',
+                alertText: 'event Updated'
+            } 
+        case EDIT_EVENT_ERROR:
+            return {
+             ...state,
+             showAlert: true,
+             isLoading: false,
+             alertType: 'danger',
+             alertText: action.payload.msg, 
+            }               
         default:
             throw new Error(`no such action :${action.type}`)
     }

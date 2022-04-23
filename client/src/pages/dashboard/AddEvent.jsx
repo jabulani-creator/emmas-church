@@ -1,5 +1,5 @@
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
-import {Alert} from '../../Components'
+import {Alert,FormRow} from '../../Components'
 import { useAppContext } from '../../context/appContext'
 
 export const AddEvent = () => {
@@ -9,8 +9,9 @@ export const AddEvent = () => {
     displayAlert,
     isEditing,
     eventTitle,
-    date,
-    eventPhoto,
+    editEvent,
+    eventDesc,
+    eventDate,
     clearValues,
     handleChange,
     createEvent
@@ -18,11 +19,12 @@ export const AddEvent = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if(!eventTitle || !date || !eventPhoto){
+    if(!eventTitle || !eventDate || !eventDesc){
       displayAlert()
       return
     }
     if(isEditing){
+      editEvent()
       return
     }
     createEvent()
@@ -37,32 +39,34 @@ export const AddEvent = () => {
       <form className="form">
         <h3>{isEditing ? 'edit event' : 'add event'}</h3>
         {showAlert && <Alert />}
-        <div className="form-row">
-        <label htmlFor="event" className="form-label">Event</label>
-        <input 
-            type="text"
-            placeholder='Pathfinder day'
-            name='eventTitle'
-            className='form-input'
-            value={eventTitle}
+        <FormRow
+        type='text'
+        placeholder='Pathfinder day'
+        name='eventTitle'
+        className='form-input'
+        value={eventTitle}
+        handleChange={handlePostInput}
+        />
+        <FormRow
+        type='date'
+        name='eventDate'
+        className='form-input'
+        value={eventDate}
+        handleChange={handlePostInput}
+        />
+         <div className="form-row">
+        <label htmlFor="eventDesc" className="form-label">Message</label>
+        <textarea 
+             name="eventDesc"
+             value={eventDesc}
+             className='form-textarea'
              onChange={handlePostInput}
-            />
+           />
         </div>
-        <div className="form-row">
-        <label htmlFor="date" className="form-label">Date</label>
-        <input 
-            type="text"
-            placeholder='09 SEP'
-            name='date'
-            className='form-input'
-            value={date}
-             onChange={handlePostInput}
-            />
-        </div>
-        <input
+        {/* <input
             type="file"
             name="postPhoto"
-          />
+          /> */}
           <div className="btn-container">
             <button 
             className="btn btn-block submit-btn" 

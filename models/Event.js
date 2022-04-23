@@ -7,12 +7,13 @@ const EventSchema = new mongoose.Schema({
         maxlength: 100,
         unique: true
     },
-    date: {
+    eventDate: {
         type: String,
         required: [true, 'please provide post event date']
     },
-    eventPhoto: {
-        type: String
+    eventDesc: {
+        type: String,
+        required: [true, 'please provide post event message']
     },
     createdBy: {
         type: mongoose.Types.ObjectId,

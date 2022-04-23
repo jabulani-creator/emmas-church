@@ -1,5 +1,5 @@
 import React, {useReducer, useContext, useEffect } from "react"
-import { CLEAR_ALERT, DISPLAY_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, TOGGLE_SIDEBAR, LOGOUT_USER, UPDATE_USER_BEGIN, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_VALUES, CREATE_POST_BEGIN, CREATE_POST_SUCCESS, CREATE_POST_ERROR, CREATE_HEALTH_POST_BEGIN, CREATE_HEALTH_POST_SUCCESS, CREATE_HEALTH_POST_ERROR, CREATE_EVENT_BEGIN, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, GET_POST_BEGIN, GET_POST_SUCCESS, GET_HEALTH_POST_BEGIN, GET_HEALTH_POST_SUCCESS, SET_EDIT_POST, DELETE_POST_BEGIN, EDIT_POST_BEGIN, EDIT_POST_SUCCESS, EDIT_POST_ERROR, SET_EDIT_HEALTH_POST, DELETE_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_SUCCESS, EDIT_HEALTH_POST_ERROR, CLEAR_FILTERS, CHANGE_PAGE, CREATE_REQUEST_BEGIN, CREATE_REQUEST_SUCCESS, CREATE_REQUEST_ERROR, GET_REQUEST_BEGIN, GET_REQUEST_SUCCESS, DELETE_REQUEST_BEGIN, GET_SINGLE_POST_BEGIN, GET_SINGLE_POST_SUCCESS, SET_POST_ID} from "./actions"
+import { CLEAR_ALERT, DISPLAY_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_SUCCESS,REGISTER_USER_ERROR, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, TOGGLE_SIDEBAR, LOGOUT_USER, UPDATE_USER_BEGIN, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_VALUES, CREATE_POST_BEGIN, CREATE_POST_SUCCESS, CREATE_POST_ERROR, CREATE_HEALTH_POST_BEGIN, CREATE_HEALTH_POST_SUCCESS, CREATE_HEALTH_POST_ERROR, CREATE_EVENT_BEGIN, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, GET_POST_BEGIN, GET_POST_SUCCESS, GET_HEALTH_POST_BEGIN, GET_HEALTH_POST_SUCCESS, SET_EDIT_POST, DELETE_POST_BEGIN, EDIT_POST_BEGIN, EDIT_POST_SUCCESS, EDIT_POST_ERROR, SET_EDIT_HEALTH_POST, DELETE_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_BEGIN, EDIT_HEALTH_POST_SUCCESS, EDIT_HEALTH_POST_ERROR, CLEAR_FILTERS, CHANGE_PAGE, CREATE_REQUEST_BEGIN, CREATE_REQUEST_SUCCESS, CREATE_REQUEST_ERROR, GET_REQUEST_BEGIN, GET_REQUEST_SUCCESS, DELETE_REQUEST_BEGIN, SET_POST_ID, GET_EVENTS_BEGIN, GET_EVENTS_SUCCESS, SET_EDIT_EVENT, DELETE_EVENT_BEGIN, EDIT_EVENT_BEGIN, EDIT_EVENT_SUCCESS, EDIT_EVENT_ERROR} from "./actions"
 import axios from 'axios'
 
 import reducer from "./reducer"
@@ -25,7 +25,13 @@ export const initialState = {
     healthDesc: '',
     showSidebar: false,
     posts: [],
-    post: null,
+    eventTitle: '',
+    eventDesc: '',
+    eventDate:'',
+    events: [],
+    totalEvents: 0,
+    numOfEventsPages: 1,
+    editEventId: '',
     totalPost: 0,
     numOfpages: 1,
     page: 1,
@@ -232,12 +238,12 @@ export const initialState = {
       const createEvent = async () => {
         dispatch({type: CREATE_EVENT_BEGIN})
         try {
-          const {eventTitle, date, eventPhoto} = state
+          const {eventTitle, eventDate, eventDesc} = state
 
           await authFetch.post('/events', {
             eventTitle,
-            date,
-            eventPhoto
+            eventDate,
+            eventDesc
           })
 
          dispatch({type: CREATE_EVENT_SUCCESS}) 
@@ -255,23 +261,7 @@ export const initialState = {
         dispatch({type: SET_POST_ID, payload: {id}})
 
       }
-      // const getPost = async () => {
-      //   dispatch({type: GET_SINGLE_POST_BEGIN})
-      //   try {
-          
-      //     const { data } = await axios.get(`/api/v1/posts/${state.PostId}`)
-  
-        
-      //     dispatch({
-      //       type: GET_SINGLE_POST_SUCCESS,
-      //       payload: {
-              
-      //       }
-      //     })
-      //   } catch (error) {
-      //     console.log(error)
-      //   }
-      // }
+
       const getPosts = async () => {
         const {page, search, sort} = state
         let url = `/api/v1/posts?page=${page}&sort=${sort}`
@@ -459,7 +449,63 @@ export const initialState = {
            loginUser()
          }
       }
-   
+      const getEvents = async () => {
+        let url = `/api/v1/events`
+        dispatch({type: GET_EVENTS_BEGIN})
+
+        try {
+          const { data } = await axios.get(url)
+          const {events, totalEvents, numOfEventsPages} = data
+
+          dispatch({
+            type: GET_EVENTS_SUCCESS,
+            payload: {
+              events,
+              totalEvents,
+              numOfEventsPages
+            }
+          })
+        } catch (error) {
+          console.log(error)
+        }
+        clearAlert()
+      }
+      const setEditEvent = (id) => {
+        dispatch({type : SET_EDIT_EVENT, payload: {id}})
+      }
+      const editEvent = async() => {
+        dispatch({ type : EDIT_EVENT_BEGIN})
+
+        try {
+          const {eventDate, eventDesc, eventTitle} = state
+
+          await authFetch.patch(`events/${state.editPostId}`, {
+            eventDate,
+            eventDesc, 
+            eventTitle
+          })
+          dispatch({type: EDIT_EVENT_SUCCESS})
+          dispatch({type : CLEAR_VALUES})
+        } catch (error) {
+          if(error.response.status === 401) return
+          dispatch({
+            type: EDIT_EVENT_ERROR,
+            payload: {msg : error.response.data.msg}
+          })
+          
+        }
+        clearAlert()
+      }
+      const deleteEvent = async (eventId) => {
+        dispatch({type : DELETE_EVENT_BEGIN})
+        try {
+          await authFetch.delete(`events/${eventId}`)
+          getEvents()
+        } catch (error) {
+          loginUser()
+        }
+      }
+
       return (
       <AppContext.Provider
          value={{
@@ -469,7 +515,8 @@ export const initialState = {
              createPost, createHealthPost, createEvent, getPosts,
              getHealthPost, setEditPost, deletePost, editPost,
              setEditHealthPost, deleteHealthPost, editHealth, clearFilters,
-             changePage, createRequest, getRequests, deleteRequest,setPostId
+             changePage, createRequest, getRequests, deleteRequest,setPostId,
+             getEvents, setEditEvent, deleteEvent, editEvent
             }}
          >
           {children}
