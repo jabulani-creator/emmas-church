@@ -3,6 +3,7 @@ import Wrapper from '../assets/wrappers/SmallSidebar'
 import { FaTimes } from 'react-icons/fa'
 import { NavLinks } from './NavLinks'
 import emmas from '../assets/images/emmas.svg'
+import { Link } from 'react-router-dom'
 
 export const SmallSidebar = () => {
   const {showSidebar, toggleSidebar} = useAppContext()
@@ -16,7 +17,9 @@ export const SmallSidebar = () => {
               <FaTimes />
             </button>
             <header>
-            <img src={emmas} alt="" className='emmas' />
+              <Link to='/'>
+              <img src={emmas} alt="" className='emmas' />
+              </Link>
             </header>
            <NavLinks toggleSidebar={toggleSidebar} />
           </div>
