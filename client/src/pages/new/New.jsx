@@ -1,6 +1,6 @@
 import React from 'react'
 import { Header, Navigation, Footer, Text, OnlineWorship} from '../../Components/NEW'
-import { Normal, WeeklyBulleting, NormalFlex, Form, SabbathSchool  } from '../../Components/GLOBAL'
+import { Normal, WeeklyBulleting, NormalFlex, Form, SabbathSchool, Reverse  } from '../../Components/GLOBAL'
 export const New = () => {
   return (
     <>
@@ -18,7 +18,7 @@ export const New = () => {
     time="10:00 - 12:00"
     service="Main Service :"
    />
-    <NormalFlex 
+    <Reverse
     title="bible study"
     message="Our Sabbath Worship is packed with activities for the entire day with special program for each age"
     image="https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjR8fGJpYmxlJTIwc3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
@@ -30,7 +30,7 @@ export const New = () => {
     message="Our Sabbath Worship is packed with activities for the entire day with special program for each age"
     image="https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjR8fGJpYmxlJTIwc3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
    />
-    <NormalFlex
+    <Reverse
     title="Youths & Young Adults"
     message="Our Sabbath Worship is packed with activities for the entire day with special program for each age"
     image="https://images.unsplash.com/photo-1543702404-38c2035462ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTAxfHx3b3JzaGlwfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"

@@ -12,9 +12,10 @@ import {Info} from './info/Info'
 import { NormalFlexReverse } from './normalFlexReverse copy/NormalFlexReverse'
 import { WeeklyBulleting } from './weekly/WeeklyBulleting'
 import { SabbathSchool } from './sabbathSchool/SabbathSchool'
+import { Reverse } from './normalFlex/Reverse'
 export {
     Footer, Topbar, Navbar, Header, HeaderLogin,
     NormalLeft, Normal, LearnMore, NormalFlex,
     Form, Info, NormalFlexReverse, WeeklyBulleting,
-    SabbathSchool
+    SabbathSchool, Reverse
 }

@@ -1,4 +1,4 @@
-import { Footer, Header, Normal, NormalFlex } from "../../GLOBAL"
+import { Footer, Header, Info, Normal, NormalFlex, Reverse } from "../../GLOBAL"
 import { Navigation } from "../../Navigation"
 
 export const Youth = () => {
@@ -25,7 +25,7 @@ export const Youth = () => {
             message="More than one million kids around the world have discovered one of the most fun clubs ever created for them. The Adventurer Club is designed to strengthen parent-child relationships  for kids ages 4-9 by providing specialized weekly activities tuned into the psychological needs of this age group while simultaneously giving parents opportunities for learning parenting skills and enjoying special activities with their children. " 
             path="https://www.gcyouthministries.org/ministries/adventurers/"
             learn="Learn More"/>
-       <NormalFlex 
+       <Reverse
             image="https://www.gcyouthministries.org/wp-content/uploads/Pathfinder_logo-292x300.jpeg" 
             title="PATHFINDER"
             message="For those who are familiar with it, “Pathfindering” conjures up images of marching, camping, curious hobbies, bugs and bats. Enlarging their windows on the world and building a relationship with God are the dual objectives of this club, which is designed for children ages 10-15. With nearly 2 million members around the world, this Seventh-day Adventist Church-sponsored club accepts any youth who promises to abide by the Pathfinder Pledge and Law regardless of their church affiliation." 
@@ -39,13 +39,14 @@ export const Youth = () => {
             path="https://www.gcyouthministries.org/ministries/ambassadors/" 
             learn="Learn More" 
        />
-       <NormalFlex 
+       <Reverse
             image="https://adventistyouthministries.org/files/images/logos/A-%20Logo.jpg" 
             title="YOUNG ADULTS"
             message="The story of the Adventist Youth Society, now titled Young Adults (YA), began over 125 years ago along a dusty country lane in Michigan with two young boys kneeling in prayer. Today that dusty lane has become a world-wide web of highways that links over 10 million Seventh-day Adventist young people in nearly every political entity on every continent of the globe. This story comes in every hue of the rainbow; it is filled with extremes of exhilaration and mountaintop experiences, as well as deep sadness and unfulfilled dreams. This is the story of God’s leading a fascinating army down through the battles of the great over arching conflict that is life as we know it now." 
             path="https://www.gcyouthministries.org/ministries/young-adults/" 
             learn="Learn More" 
        />
+        <Info image="https://images.unsplash.com/photo-1628890920690-9e29d0019b9b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGFzdG9yfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" name="Victoria Nswila" phone="+260972975737" email="victoria@gmail.com" position="Director"/>
      </section>
      <Footer />
     </>
