@@ -50,6 +50,10 @@ import {
     EDIT_EVENT_BEGIN,
     EDIT_EVENT_SUCCESS,
     EDIT_EVENT_ERROR,
+    CREATE_POSITION_SUCCESS,
+    CREATE_POSITION_BEGIN,
+    CREATE_POSITION_ERROR,
+    CREATE_POSITION_RESET,
 } from "./actions"
 
 import { initialState } from "./appContext"
@@ -509,6 +513,37 @@ const reducer = (state, action) => {
             alertType: 'danger',
             alertText: action.payload.msg, 
            } 
+    }
+    if(action.type === CREATE_POSITION_BEGIN){
+        return {
+            ...state,
+            isLoading: true,
+        }
+    }
+    if(action.type === CREATE_POSITION_SUCCESS){
+        return {
+            ...state,
+            isLoading: false,
+            leader: action.payload.leader,
+            showAlert: true,
+            alertType: 'success',
+            alertText: "position created"
+        }
+    }
+    if(action.type === CREATE_POSITION_ERROR){
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: action.payload.msg
+        } 
+    }
+    if(action.type === CREATE_POSITION_RESET){
+            return {
+                ...initialState,
+                leader: null,
+            }
     }
     else {
         return {...state}

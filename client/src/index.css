@@ -528,9 +528,10 @@ footer {
 
 
 .overlay-image{
-  width: 300px;
-  height: 280px;
+  width: 350px;
+  height: 300px;
   border-radius: var(--borderRadius);
+  margin: auto;
 }
 
 .btn-read {
