@@ -53,6 +53,12 @@ const links = [
     path: 'profile',
     icon: <ImProfile />,
   },
+  {
+    id: 9,
+    text: 'add leaders',
+    path: 'add-position',
+    icon: <ImProfile />,
+  },
 ]
 
 export default links

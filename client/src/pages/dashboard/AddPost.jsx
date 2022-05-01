@@ -1,4 +1,5 @@
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
+import { useState } from 'react'
 import {Alert} from '../../Components'
 import { useAppContext } from '../../context/appContext'
 
@@ -10,11 +11,13 @@ export const AddPost = () => {
     isEditing,
     editPost,
     postTitle,
+    postPhoto,
     postDesc,
     clearValues,
     handleChange,
     createPost
   } = useAppContext()
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -58,10 +61,10 @@ export const AddPost = () => {
              onChange={handlePostInput}
            />
         </div>
-        {/* <input
+        <input
             type="file"
             name="postPhoto"
-          /> */}
+          />
           <div className="btn-container">
             <button 
             className="btn btn-block submit-btn" 

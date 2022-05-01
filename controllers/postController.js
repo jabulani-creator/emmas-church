@@ -1,6 +1,6 @@
 import Post from "../models/Post.js"
 import { StatusCodes } from "http-status-codes"
-import {BadRequestError} from '../errors/index.js'
+import {BadRequestError, NotFoundError} from '../errors/index.js'
 import checkPermission from "../utils/checksPermission.js"
 
 const createPost = async (req, res) => {

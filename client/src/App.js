@@ -3,7 +3,7 @@ import { Youth, Children,GeneralMinistry } from './Components/MINISTRIES';
 import { Error, Register, Landing, Home, About, New, Ministries, Media, Contact, Resources, SinglePost } from './pages';
 import { OurBeliefs } from './pages/about/OurBeliefs';
 import { OurHistory } from './pages/about/OurHistory';
-import { AddEvent, AddHealth, AddPost, AllEvents, AllHealth, AllPost, Profile, ProtectedRoute, Request, SharedLayout } from './pages/dashboard';
+import { AddEvent, AddHealth, AddLeader, AddPost, AllEvents, AllHealth, AllPost, Profile, ProtectedRoute, Request, SharedLayout } from './pages/dashboard';
 
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
        <Route path='all-health' element={<AllHealth />} />
        <Route path='add-health' element={<AddHealth />} />
        <Route path='profile' element={<Profile />} />
+       <Route path='add-position' element={<AddLeader />} />
      </Route>
      <Route path='/' exact element={<Home />} />
      <Route path='/post/:postId' element={<SinglePost />}/>

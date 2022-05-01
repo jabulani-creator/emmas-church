@@ -14,12 +14,14 @@ display: flex;
 .ImageContainer{
 flex: 1;
 width: 100%;
-height: 80%;
+height: 100%;
 } 
 .MessageContainer {
 flex: 1;
  margin: 30px;
-
+ @media screen and (max-width: 768px) {
+    margin: 0 30px;
+ }
  .Time{
 color: var(--primary-60);
 @media screen and (max-width: 768px) {

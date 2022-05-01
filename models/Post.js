@@ -10,6 +10,9 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: [true, 'please provide health post description']
     },
+    postPhoto: {
+        type: String
+    },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
