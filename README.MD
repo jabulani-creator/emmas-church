@@ -13,7 +13,7 @@ npm run install-dependencies
 npm start
 ```
 
-- visit url http://localhost:4000/
+- visit url http://localhost:3000/
 
 #### Setup React App
 
