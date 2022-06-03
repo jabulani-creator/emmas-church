@@ -1,4 +1,4 @@
-import logoFront from '../../../assets/images/logoFront.svg'
+import logo from '../../../assets/images/LOGO.png'
 import {FaBars} from 'react-icons/fa'
 import Wrapper from '../../../assets/wrappers/MainNavbar'
 import { Link } from 'react-router-dom'
@@ -9,7 +9,7 @@ export const Navbar = ({toggle}) => {
      <Wrapper>
          <div className='NavbarContainer'>
              <Link to='/' className='NavLogo'>
-                 <img src={logoFront} alt="" className='emmas' />
+                 <img src={logo} alt="" className='emmas' />
              </Link>
              <div className='MobileIcon' onClick={toggle}>
              <FaBars />
