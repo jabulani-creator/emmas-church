@@ -1,22 +1,22 @@
-#  EMMASDALE SDA CHURCH
+# EMMASDALE SDA CHURCH
 
 #### Purpose
 
 - Emmasdale Sda Church is a MERN FullStack app that helps leaders disseminate important information(upcoming events, latest happenings, program guides, lessons etc) to its members.
 
-
 #### Why MERN
 
 - I have been learning the MERN stack fro some months, i decided to test the skills i had acquired thus far.
 
-#### Challenges 
-- i am struggling to add images dynamically  not sure what to use multer or firebase.
+#### Challenges
+
+- i am struggling to add images dynamically, i have set up file upload using express-fileupload, i am not sure how to upload the image using react
 - i am struggling to create a download link.
 - understanding the youtube Api
 
-
 #### Appeal
-- Feedback on anything is welcome, i am eager to here from you 
+
+- Feedback on anything is welcome, i am eager to here from you
 
 #### Run The App Locally
 
@@ -34,6 +34,3 @@ npm start
 - visit url http://localhost:3000/
 
 #### Setup React App
-
-
-

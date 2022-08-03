@@ -1,7 +1,7 @@
-import Wrapper from '../../assets/wrappers/DashboardFormPage'
-import { useState } from 'react'
-import {Alert} from '../../Components'
-import { useAppContext } from '../../context/appContext'
+import Wrapper from "../../assets/wrappers/DashboardFormPage";
+import { useState } from "react";
+import { Alert } from "../../Components";
+import { useAppContext } from "../../context/appContext";
 
 export const AddPost = () => {
   const {
@@ -15,76 +15,77 @@ export const AddPost = () => {
     postDesc,
     clearValues,
     handleChange,
-    createPost
-  } = useAppContext()
+    createPost,
+  } = useAppContext();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if(!postTitle || !postDesc){
-      displayAlert()
-      return
+    if (!postTitle || !postDesc) {
+      displayAlert();
+      return;
     }
-    if(isEditing){
-      editPost()
-      return
+    if (isEditing) {
+      editPost();
+      return;
     }
-    createPost()
-  }
+    createPost();
+  };
   const handlePostInput = (e) => {
-    const name = e.target.name
-    const value = e.target.value
-    handleChange({name, value})
-  }
+    const name = e.target.name;
+    const value = e.target.value;
+    handleChange({ name, value });
+  };
   return (
     <Wrapper>
       <form className="form">
-        <h3>{isEditing ? 'edit post' : 'add post'}</h3>
+        <h3>{isEditing ? "edit post" : "add post"}</h3>
         {showAlert && <Alert />}
         <div className="form-row">
-        <label htmlFor="title" className="form-label">Post Title</label>
-        <input 
+          <label htmlFor="title" className="form-label">
+            Post Title
+          </label>
+          <input
             type="text"
-            placeholder='what is depression'
-            name='postTitle'
-            className='form-input'
+            placeholder="what is depression"
+            name="postTitle"
+            className="form-input"
             value={postTitle}
-             onChange={handlePostInput}
-            />
+            onChange={handlePostInput}
+          />
         </div>
         <div className="form-row">
-        <label htmlFor="postDesc" className="form-label">Message</label>
-        <textarea 
-             name="postDesc"
-             value={postDesc}
-             className='form-textarea'
-             onChange={handlePostInput}
-           />
-        </div>
-        <input
-            type="file"
-            name="postPhoto"
+          <label htmlFor="postDesc" className="form-label">
+            Message
+          </label>
+          <textarea
+            name="postDesc"
+            value={postDesc}
+            className="form-textarea"
+            onChange={handlePostInput}
           />
-          <div className="btn-container">
-            <button 
-            className="btn btn-block submit-btn" 
-            type='submit'
+        </div>
+        {/* <input type="file" name="postPhoto" /> */}
+        <div className="btn-container">
+          <button
+            className="btn btn-block submit-btn"
+            type="submit"
             onClick={handleSubmit}
             disabled={isLoading}
-            >
+          >
             submit
-            </button>
-            <button 
-            className="btn btn-block clear-btn" 
+          </button>
+          <button
+            className="btn btn-block clear-btn"
             onClick={(e) => {
-              e.preventDefault()
-              clearValues()
+              e.preventDefault();
+              clearValues();
             }}
-            >
+          >
             clear
-            </button>
-          </div>
+          </button>
+        </div>
       </form>
     </Wrapper>
-  )
-}
+  );
+};

@@ -1,23 +1,26 @@
 import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema({
+const PostSchema = new mongoose.Schema(
+  {
     postTitle: {
-        type: String,
-        required: [true, 'please provide post title'],
-        maxlength: 100,
+      type: String,
+      required: [true, "please provide post title"],
+      maxlength: 100,
     },
     postDesc: {
-        type: String,
-        required: [true, 'please provide health post description']
+      type: String,
+      required: [true, "please provide health post description"],
     },
     postPhoto: {
-        type: String
+      type: String,
     },
     createdBy: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'Please provide user'],
-      },
-},{timestamps: true})
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: [true, "Please provide user"],
+    },
+  },
+  { timestamps: true }
+);
 
-export default mongoose.model('Post', PostSchema)
+export default mongoose.model("Post", PostSchema);
