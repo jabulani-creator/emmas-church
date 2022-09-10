@@ -1,13 +1,18 @@
 import path from "path";
+import { dirname } from "path";
 import express from "express";
 const app = express();
 import dotenv from "dotenv";
 dotenv.config();
+import { fileURLToPath } from "url";
 
-import fileUpload from "express-fileupload";
+// import fileUpload from "express-fileupload";
 import cloudinary from "cloudinary";
 import "express-async-errors";
 import morgan from "morgan";
+import helmet from "helmet";
+import xss from "xss-clean";
+import mongoSanitize from "express-mongo-sanitize";
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -33,11 +38,20 @@ if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 }
 app.use(express.json());
+
 app.use(express.static("./public"));
-app.use(fileUpload({ useTempFiles: true }));
-app.get("/", (req, res) => {
-  res.send("Welcome");
-});
+
+// const __dirname = path.resolve();
+// app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+// app.use(fileUpload({ useTempFiles: true }));
+app.use(helmet());
+app.use(xss());
+app.use(mongoSanitize());
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// only when ready to deploy
+// app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/posts", postsRouter);
@@ -46,8 +60,9 @@ app.use("/api/v1/health", healthRouter);
 app.use("/api/v1/contact", contactRouter);
 app.use("/api/v1/position", leadersRouter);
 
-// const __dirname = path.resolve();
-// app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+// app.get("*", function (request, response) {
+//   response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+// });
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

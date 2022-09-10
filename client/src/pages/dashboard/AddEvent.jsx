@@ -1,92 +1,124 @@
-import Wrapper from '../../assets/wrappers/DashboardFormPage'
-import {Alert,FormRow} from '../../Components'
-import { useAppContext } from '../../context/appContext'
+import { useState } from "react";
+import Wrapper from "../../assets/wrappers/DashboardFormPage";
+import { Alert } from "../../Components";
+import { useAppContext } from "../../context/appContext";
 
+const initialState = {
+  eventTitle: "",
+  eventDate: "",
+  eventDesc: "",
+  eventPhoto: "",
+};
 export const AddEvent = () => {
-  const {
-    isLoading,
-    showAlert,
-    displayAlert,
-    isEditing,
-    eventTitle,
-    editEvent,
-    eventDesc,
-    eventDate,
-    clearValues,
-    handleChange,
-    createEvent
-  } = useAppContext()
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const [values, setValues] = useState(initialState);
+  const { isLoading, showAlert, displayAlert, clearValues, createEvent } =
+    useAppContext();
 
-    if(!eventTitle || !eventDate || !eventDesc){
-      displayAlert()
-      return
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!values.eventTitle || !values.eventDate || !values.eventDesc) {
+      displayAlert();
+      return;
     }
-    if(isEditing){
-      editEvent()
-      return
+
+    console.log(values);
+    const formdata = new FormData();
+    formdata.append("eventTitle", values.eventTitle);
+    formdata.append("eventDate", values.eventDate);
+    formdata.append("eventDesc", values.eventDesc);
+    formdata.append("eventPhoto", values.eventPhoto);
+
+    console.log(formdata);
+
+    createEvent(formdata);
+    if (!isLoading) {
+      setValues({
+        eventTitle: "",
+        eventDate: "",
+        eventDesc: "",
+        eventPhoto: "",
+      });
     }
-    createEvent()
-  }
-  const handlePostInput = (e) => {
-    const name = e.target.name
-    const value = e.target.value
-    handleChange({name, value})
-  }
+  };
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handlePhoto = (e) => {
+    setValues({ ...values, eventPhoto: e.target.files[0] });
+    console.log(values.eventPhoto);
+  };
   return (
     <Wrapper>
-      <form className="form">
-        <h3>{isEditing ? 'edit event' : 'add event'}</h3>
+      <form className="form" encType="multipart/form-data">
+        <h3>add event</h3>
         {showAlert && <Alert />}
-        <FormRow
-        type='text'
-        placeholder='Pathfinder day'
-        name='eventTitle'
-        className='form-input'
-        value={eventTitle}
-        handleChange={handlePostInput}
-        />
-        <FormRow
-        type='date'
-        name='eventDate'
-        className='form-input'
-        value={eventDate}
-        handleChange={handlePostInput}
-        />
-         <div className="form-row">
-        <label htmlFor="eventDesc" className="form-label">Message</label>
-        <textarea 
-             name="eventDesc"
-             value={eventDesc}
-             className='form-textarea'
-             onChange={handlePostInput}
-           />
+        <div className="form-row">
+          <label htmlFor="eventTitle" className="form-label">
+            Event Title
+          </label>
+          <input
+            type="text"
+            placeholder="Pathfinder Day"
+            name="eventTitle"
+            className="form-input"
+            value={values.eventTitle}
+            onChange={handleChange}
+          />
         </div>
-        {/* <input
+        <div className="form-row">
+          <label htmlFor="eventDate" className="form-label">
+            Event Date
+          </label>
+          <input
+            type="date"
+            name="eventDate"
+            className="form-input"
+            value={values.eventDate}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="eventDesc" className="form-label">
+            Event Description
+          </label>
+          <textarea
+            name="eventDesc"
+            value={values.eventDesc}
+            className="form-textarea"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-row">
+          <input
             type="file"
-            name="postPhoto"
-          /> */}
-          <div className="btn-container">
-            <button 
-            className="btn btn-block submit-btn" 
-            type='submit'
-            onClick={handleSubmit}
+            accept=".jpg,.png,.jpeg"
+            name="image"
+            onChange={handlePhoto}
+          />
+        </div>
+        <div className="btn-container">
+          <button
+            className="btn btn-block submit-btn"
+            type="submit"
             disabled={isLoading}
-            >
+            onClick={handleSubmit}
+          >
             submit
-            </button>
-            <button 
-            className="btn btn-block clear-btn" 
+          </button>
+          <button
+            className="btn btn-block clear-btn"
             onClick={(e) => {
-              e.preventDefault()
-              clearValues()
+              e.preventDefault();
+              clearValues();
             }}
-            >
+          >
             clear
-            </button>
-          </div>
+          </button>
+        </div>
       </form>
     </Wrapper>
-  )
-}
+  );
+};

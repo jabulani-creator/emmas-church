@@ -1,20 +1,19 @@
+import axios from "axios";
 import { useState } from "react";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 import { Alert, FormRow } from "../../Components";
 import { useAppContext } from "../../context/appContext";
 
+const initialState = {
+  leaderName: "",
+  leaderEmail: "",
+  leaderPhone: "",
+  leaderPosition: "",
+  leaderPhoto: "",
+};
 export const AddLeader = () => {
-  const initialState = {
-    leaderName: "",
-    leaderPosition: "",
-    leaderPhone: "",
-    leaderEmail: "",
-  };
   const [values, setValues] = useState(initialState);
-  // const [photo, setPhoto] = useState(null)
-
   const {
-    leader,
     isLoading,
     showAlert,
     isEditing,
@@ -23,29 +22,31 @@ export const AddLeader = () => {
     clearValues,
   } = useAppContext();
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const formdata = new FormData();
+    formdata.append("leaderName", values.leaderName);
+    formdata.append("leaderEmail", values.leaderEmail);
+    formdata.append("leaderPosition", values.leaderPosition);
+    formdata.append("leaderPhone", values.leaderPhone);
+    formdata.append("leaderPhoto", values.leaderPhoto);
+
+    createPosition(formdata);
+  };
+
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const { leaderName, leaderPosition, leaderPhone, leaderEmail } = values;
-    if (!leaderName || !leaderPosition || !leaderPhone || !leaderEmail) {
-      displayAlert();
-      return;
-    }
-    console.log(values);
-    const currentLeader = {
-      leaderName,
-      leaderEmail,
-      leaderPhone,
-      leaderPosition,
-    };
-    createPosition(currentLeader);
+
+  const handlePhoto = (e) => {
+    setValues({ ...values, leaderPhoto: e.target.files[0] });
+    console.log(values.leaderPhoto);
   };
 
   return (
     <Wrapper>
-      <form className="form">
+      <form className="form" encType="multipart/form-data" onSubmit={onSubmit}>
         <h3>{isEditing ? "edit health post" : "add health post"}</h3>
         {showAlert && <Alert />}
         <FormRow
@@ -66,7 +67,7 @@ export const AddLeader = () => {
           type="text"
           placeholder="0976975737"
           name="leaderPhone"
-          value={values.leader}
+          value={values.leaderPhone}
           handleChange={handleChange}
         />
         <FormRow
@@ -76,22 +77,26 @@ export const AddLeader = () => {
           value={values.leaderEmail}
           handleChange={handleChange}
         />
-        {/* <FormRow
-      type='file'
-      name='photo'
-      onChange={e => setPhoto(e.target.files[0])}
-       /> */}
+        <div className="form-row">
+          <input
+            type="file"
+            accept=".jpg,.png,.jpeg"
+            name="leaderPhoto"
+            onChange={handlePhoto}
+          />
+        </div>
         <div className="btn-container">
           <button
             className="btn btn-block submit-btn"
             type="submit"
-            onClick={onSubmit}
             disabled={isLoading}
           >
             submit
           </button>
           <button
+            type="submit"
             className="btn btn-block clear-btn"
+            disabled={isLoading}
             onClick={(e) => {
               e.preventDefault();
               clearValues();

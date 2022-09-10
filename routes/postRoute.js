@@ -8,14 +8,17 @@ import {
   getPost,
 } from "../controllers/postController.js";
 import authenticateUser from "../middleware/auth.js";
-import ImageUpload from "../controllers/uploadsController.js";
+import Upload from "../middleware/file-upload.js";
 
-router.route("/").post(authenticateUser, createPost).get(getAllPosts);
+router
+  .route("/")
+  .post(Upload.single("postPhoto"), authenticateUser, createPost);
+
+router.route("/").get(getAllPosts);
 router
   .route("/:id")
   .delete(authenticateUser, deletePost)
-  .patch(authenticateUser, updatePost)
+  .patch(Upload.single("postPhoto"), authenticateUser, updatePost)
   .get(getPost);
-router.route("/uploads").post(ImageUpload);
 
 export default router;

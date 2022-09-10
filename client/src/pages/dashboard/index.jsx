@@ -9,5 +9,21 @@ import { SharedLayout } from "./SharedLayout";
 import { Request } from "./Request";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { AddLeader } from "./AddLeader";
+import { EditPost } from "./EditPost";
+import { EditEvent } from "./EditEvent";
 
-export {AddEvent, AddHealth, AddPost, AllEvents, AllHealth,AllPost,Profile, SharedLayout, Request, ProtectedRoute, AddLeader}
+export {
+  AddEvent,
+  AddHealth,
+  AddPost,
+  EditPost,
+  AllEvents,
+  AllHealth,
+  AllPost,
+  Profile,
+  SharedLayout,
+  Request,
+  ProtectedRoute,
+  AddLeader,
+  EditEvent,
+};

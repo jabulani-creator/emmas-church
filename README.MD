@@ -10,7 +10,7 @@
 
 #### Challenges
 
-- i am struggling to add images dynamically, i have set up file upload using express-fileupload, i am not sure how to upload the image using react
+- i am not able to update my posts from the frontend but in postman ist working
 - i am struggling to create a download link.
 - understanding the youtube Api
 

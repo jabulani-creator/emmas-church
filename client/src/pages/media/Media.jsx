@@ -1,12 +1,12 @@
-import React from 'react'
-import { Header, Navigation, Footer } from '../../Components/MEDIA'
-
+import { PageHero } from "../../Components/GLOBAL";
+import { Footer } from "../../Components/MEDIA";
+import { Navigation } from "../../Components/Navigation";
 export const Media = () => {
   return (
     <>
-    <Navigation />
-    <Header title="media" />
-    <Footer />
+      <Navigation />
+      <PageHero title="MEDIA" />
+      <Footer />
     </>
-  )
-}
+  );
+};

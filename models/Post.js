@@ -14,6 +14,9 @@ const PostSchema = new mongoose.Schema(
     postPhoto: {
       type: String,
     },
+    cloudinary_id: {
+      type: String,
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

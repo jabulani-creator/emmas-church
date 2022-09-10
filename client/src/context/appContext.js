@@ -1,4 +1,5 @@
-import React, { useReducer, useContext, useEffect } from "react";
+import React, { useReducer, useContext, useState } from "react";
+import sublinks from "../utils/data";
 import {
   CLEAR_ALERT,
   DISPLAY_ALERT,
@@ -28,7 +29,6 @@ import {
   GET_POST_SUCCESS,
   GET_HEALTH_POST_BEGIN,
   GET_HEALTH_POST_SUCCESS,
-  SET_EDIT_POST,
   DELETE_POST_BEGIN,
   EDIT_POST_BEGIN,
   EDIT_POST_SUCCESS,
@@ -46,7 +46,6 @@ import {
   GET_REQUEST_BEGIN,
   GET_REQUEST_SUCCESS,
   DELETE_REQUEST_BEGIN,
-  SET_POST_ID,
   GET_EVENTS_BEGIN,
   GET_EVENTS_SUCCESS,
   SET_EDIT_EVENT,
@@ -57,7 +56,6 @@ import {
   CREATE_POSITION_BEGIN,
   CREATE_POSITION_SUCCESS,
   CREATE_POSITION_ERROR,
-  CREATE_POSITION_RESET,
 } from "./actions";
 import axios from "axios";
 
@@ -73,23 +71,14 @@ export const initialState = {
   alertType: "",
   user: user ? JSON.parse(user) : null,
   leader: null,
-  photo: "",
   token: token,
   userPosition: userPosition || "",
   isEditing: false,
-  editPostId: "",
-  PostId: "",
-  postTitle: "",
-  postDesc: "",
-  postPhoto: "",
   editHealthId: "",
   healthTitle: "",
   healthDesc: "",
   showSidebar: false,
   posts: [],
-  eventTitle: "",
-  eventDesc: "",
-  eventDate: "",
   events: [],
   totalEvents: 0,
   numOfEventsPages: 1,
@@ -119,7 +108,25 @@ export const initialState = {
 const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+  const [location, setLocation] = useState({});
+  const [page, setPage] = useState({ page: "", links: [] });
+  const openSidebar = () => {
+    setIsSidebarOpen(true);
+  };
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+  const openSubmenu = (text, coordinates) => {
+    const page = sublinks.find((link) => link.page === text);
+    setPage(page);
+    setIsSubmenuOpen(true);
+    setLocation(coordinates);
+  };
+  const closeSubmenu = () => {
+    setIsSubmenuOpen(false);
+  };
   const authFetch = axios.create({
     baseURL: "/api/v1",
   });
@@ -169,6 +176,22 @@ const AppProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("position");
   };
+  const toggleSidebar = () => {
+    dispatch({ type: TOGGLE_SIDEBAR });
+  };
+
+  const handleChange = ({ name, value }) => {
+    dispatch({
+      type: HANDLE_CHANGE,
+      payload: { name, value },
+    });
+  };
+  const clearValues = () => {
+    dispatch({ type: CLEAR_VALUES });
+  };
+
+  /****************************************** USER *********************************** */
+
   const registerUser = async (currentUser) => {
     dispatch({ type: REGISTER_USER_BEGIN });
     try {
@@ -184,7 +207,6 @@ const AppProvider = ({ children }) => {
       });
       addUserToLocalStorage({ user, token, position });
     } catch (error) {
-      // console.log(error.response)
       dispatch({
         type: REGISTER_USER_ERROR,
         payload: { msg: error.response.data.msg },
@@ -217,9 +239,6 @@ const AppProvider = ({ children }) => {
     removeUserFromLocalStorage();
   };
 
-  const toggleSidebar = () => {
-    dispatch({ type: TOGGLE_SIDEBAR });
-  };
   const updateUser = async (currentUser) => {
     dispatch({ type: UPDATE_USER_BEGIN });
     try {
@@ -242,26 +261,12 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
-  const handleChange = ({ name, value }) => {
-    dispatch({
-      type: HANDLE_CHANGE,
-      payload: { name, value },
-    });
-  };
-  const clearValues = () => {
-    dispatch({ type: CLEAR_VALUES });
-  };
-  const createPost = async () => {
+  /**********************************************POSTS ******************************************* */
+
+  const createPost = async (currentPost) => {
     dispatch({ type: CREATE_POST_BEGIN });
     try {
-      const { postTitle, postDesc, postPhoto } = state;
-
-      await authFetch.post("/posts", {
-        postTitle,
-        postDesc,
-        // postPhoto
-      });
-
+      await authFetch.post("/posts", currentPost);
       dispatch({ type: CREATE_POST_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
     } catch (error) {
@@ -272,52 +277,6 @@ const AppProvider = ({ children }) => {
       });
     }
     clearAlert();
-  };
-  const createHealthPost = async () => {
-    dispatch({ type: CREATE_HEALTH_POST_BEGIN });
-    try {
-      const { healthTitle, healthDesc } = state;
-
-      await authFetch.post("/health", {
-        healthTitle,
-        healthDesc,
-      });
-
-      dispatch({ type: CREATE_HEALTH_POST_SUCCESS });
-      dispatch({ type: CLEAR_VALUES });
-    } catch (error) {
-      if (error.response.status === 401) return;
-      dispatch({
-        type: CREATE_HEALTH_POST_ERROR,
-        payload: { msg: error.response.data.msg },
-      });
-    }
-    clearAlert();
-  };
-  const createEvent = async () => {
-    dispatch({ type: CREATE_EVENT_BEGIN });
-    try {
-      const { eventTitle, eventDate, eventDesc } = state;
-
-      await authFetch.post("/events", {
-        eventTitle,
-        eventDate,
-        eventDesc,
-      });
-
-      dispatch({ type: CREATE_EVENT_SUCCESS });
-      dispatch({ type: CLEAR_VALUES });
-    } catch (error) {
-      if (error.response.status === 401) return;
-      dispatch({
-        type: CREATE_EVENT_ERROR,
-        payload: { msg: error.response.data.msg },
-      });
-    }
-    clearAlert();
-  };
-  const setPostId = (id) => {
-    dispatch({ type: SET_POST_ID, payload: { id } });
   };
 
   const getPosts = async () => {
@@ -342,32 +301,55 @@ const AppProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
+
     clearAlert();
   };
 
-  const changePage = (page) => {
-    dispatch({ type: CHANGE_PAGE, payload: { page } });
-  };
-
-  const createRequest = async () => {
-    dispatch({ type: CREATE_REQUEST_BEGIN });
+  const editPost = async (postId, currentPost) => {
+    dispatch({ type: EDIT_POST_BEGIN });
 
     try {
-      const { name, date, phone, purpose, email, message } = state;
+      await authFetch.patch(`/posts/${postId}`, { currentPost });
 
-      await axios.post("/api/v1/contact", {
-        name,
-        date,
-        phone,
-        purpose,
-        email,
-        message,
-      });
-      dispatch({ type: CREATE_REQUEST_SUCCESS });
+      dispatch({ type: EDIT_POST_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
     } catch (error) {
+      if (error.response.status === 401) return;
       dispatch({
-        type: CREATE_REQUEST_ERROR,
+        type: EDIT_POST_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  };
+  const deletePost = async (postId) => {
+    dispatch({ type: DELETE_POST_BEGIN });
+    try {
+      await authFetch.delete(`/posts/${postId}`);
+      getPosts();
+    } catch (error) {
+      console.log(error);
+      logoutUser();
+    }
+  };
+  /********************************************** POSTS END******************************************* */
+  /********************************************** HEALTH POSTS ******************************************* */
+  const createHealthPost = async () => {
+    dispatch({ type: CREATE_HEALTH_POST_BEGIN });
+    try {
+      const { healthTitle, healthDesc } = state;
+
+      await authFetch.post("/health", {
+        healthTitle,
+        healthDesc,
+      });
+
+      dispatch({ type: CREATE_HEALTH_POST_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: CREATE_HEALTH_POST_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
@@ -396,45 +378,6 @@ const AppProvider = ({ children }) => {
       console.log(error);
     }
     clearAlert();
-  };
-
-  const setEditPost = (id) => {
-    dispatch({ type: SET_EDIT_POST, payload: { id } });
-  };
-  const editPost = async () => {
-    dispatch({ type: EDIT_POST_BEGIN });
-
-    try {
-      const { postTitle, postDesc } = state;
-
-      await authFetch.patch(`/posts/${state.editPostId}`, {
-        postTitle,
-        postDesc,
-      });
-
-      dispatch({ type: EDIT_POST_SUCCESS });
-      dispatch({ type: CLEAR_VALUES });
-    } catch (error) {
-      if (error.response.status === 401) return;
-      dispatch({
-        type: EDIT_POST_ERROR,
-        payload: { msg: error.response.data.msg },
-      });
-    }
-    clearAlert();
-  };
-  const deletePost = async (postId) => {
-    dispatch({ type: DELETE_POST_BEGIN });
-    try {
-      await authFetch.delete(`/posts/${postId}`);
-      getPosts();
-    } catch (error) {
-      logoutUser();
-    }
-  };
-
-  const clearFilters = () => {
-    dispatch({ type: CLEAR_FILTERS });
   };
 
   const setEditHealthPost = (id) => {
@@ -471,6 +414,104 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  /************************************ EVENTS ********************************* */
+
+  const createEvent = async (currentEvent) => {
+    dispatch({ type: CREATE_EVENT_BEGIN });
+    try {
+      await authFetch.post("/events", currentEvent);
+      dispatch({ type: CREATE_EVENT_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: CREATE_EVENT_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  };
+
+  const getEvents = async () => {
+    let url = `/api/v1/events`;
+    dispatch({ type: GET_EVENTS_BEGIN });
+
+    try {
+      const { data } = await axios.get(url);
+      const { events, totalEvents, numOfEventsPages } = data;
+
+      dispatch({
+        type: GET_EVENTS_SUCCESS,
+        payload: {
+          events,
+          totalEvents,
+          numOfEventsPages,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    clearAlert();
+  };
+  const setEditEvent = (id) => {
+    dispatch({ type: SET_EDIT_EVENT, payload: { id } });
+  };
+  const editEvent = async (eventId, event) => {
+    dispatch({ type: EDIT_EVENT_BEGIN });
+
+    try {
+      await authFetch.patch(`events/${eventId}`, { event });
+      dispatch({ type: EDIT_EVENT_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: EDIT_EVENT_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  };
+  const deleteEvent = async (eventId) => {
+    dispatch({ type: DELETE_EVENT_BEGIN });
+    try {
+      await authFetch.delete(`events/${eventId}`);
+      getEvents();
+    } catch (error) {
+      loginUser();
+    }
+  };
+  /************************************ EVENT END********************************* */
+  const changePage = (page) => {
+    dispatch({ type: CHANGE_PAGE, payload: { page } });
+  };
+
+  /************************************ REQUEST START********************************* */
+  const createRequest = async () => {
+    dispatch({ type: CREATE_REQUEST_BEGIN });
+
+    try {
+      const { name, date, phone, purpose, email, message } = state;
+
+      await axios.post("/api/v1/contact", {
+        name,
+        date,
+        phone,
+        purpose,
+        email,
+        message,
+      });
+      dispatch({ type: CREATE_REQUEST_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      dispatch({
+        type: CREATE_REQUEST_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  };
+
   const getRequests = async () => {
     const { searchPurpose, page, sort } = state;
     let url = `/contact?page=${page}&purpose=${searchPurpose}&sort=${sort}`;
@@ -504,73 +545,34 @@ const AppProvider = ({ children }) => {
       loginUser();
     }
   };
-  const getEvents = async () => {
-    let url = `/api/v1/events`;
-    dispatch({ type: GET_EVENTS_BEGIN });
 
+  /************************************ REQUEST END********************************* */
+  const clearFilters = () => {
+    dispatch({ type: CLEAR_FILTERS });
+  };
+
+  const createPosition = async (currentLeader) => {
+    console.log(currentLeader);
+    dispatch({ type: CREATE_POSITION_BEGIN });
     try {
-      const { data } = await axios.get(url);
-      const { events, totalEvents, numOfEventsPages } = data;
-
-      dispatch({
-        type: GET_EVENTS_SUCCESS,
-        payload: {
-          events,
-          totalEvents,
-          numOfEventsPages,
-        },
-      });
+      const response = await authFetch.post("/position", currentLeader);
+      console.log(response);
+      const { leader } = response.data;
+      dispatch({ type: CREATE_POSITION_SUCCESS, payload: leader });
     } catch (error) {
       console.log(error);
-    }
-    clearAlert();
-  };
-  const setEditEvent = (id) => {
-    dispatch({ type: SET_EDIT_EVENT, payload: { id } });
-  };
-  const editEvent = async () => {
-    dispatch({ type: EDIT_EVENT_BEGIN });
-
-    try {
-      const { eventDate, eventDesc, eventTitle } = state;
-
-      await authFetch.patch(`events/${state.editPostId}`, {
-        eventDate,
-        eventDesc,
-        eventTitle,
-      });
-      dispatch({ type: EDIT_EVENT_SUCCESS });
-      dispatch({ type: CLEAR_VALUES });
-    } catch (error) {
-      if (error.response.status === 401) return;
       dispatch({
-        type: EDIT_EVENT_ERROR,
+        type: CREATE_POSITION_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
-    clearAlert();
-  };
-  const deleteEvent = async (eventId) => {
-    dispatch({ type: DELETE_EVENT_BEGIN });
-    try {
-      await authFetch.delete(`events/${eventId}`);
-      getEvents();
-    } catch (error) {
-      loginUser();
-    }
-  };
-  const createPosition = async (currentLeader) => {
-    console.log(currentLeader);
-  };
-
-  const resetPosition = () => {
-    dispatch({ type: CREATE_POSITION_RESET });
   };
 
   return (
     <AppContext.Provider
       value={{
         ...state,
+        authFetch,
         displayAlert,
         registerUser,
         loginUser,
@@ -584,7 +586,6 @@ const AppProvider = ({ children }) => {
         createEvent,
         getPosts,
         getHealthPost,
-        setEditPost,
         deletePost,
         editPost,
         setEditHealthPost,
@@ -595,13 +596,19 @@ const AppProvider = ({ children }) => {
         createRequest,
         getRequests,
         deleteRequest,
-        setPostId,
         getEvents,
         setEditEvent,
         deleteEvent,
         editEvent,
         createPosition,
-        resetPosition,
+        closeSubmenu,
+        openSubmenu,
+        openSidebar,
+        closeSidebar,
+        isSubmenuOpen,
+        isSidebarOpen,
+        location,
+        page,
       }}
     >
       {children}
