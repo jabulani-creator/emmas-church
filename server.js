@@ -39,19 +39,15 @@ if (process.env.NODE_ENV !== "production") {
 }
 app.use(express.json());
 
-app.use(express.static("./public"));
-
 // const __dirname = path.resolve();
 // app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 // app.use(fileUpload({ useTempFiles: true }));
+const __dirname = dirname(fileURLToPath(import.meta.url));
+// only when ready to deploy
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-// only when ready to deploy
-// app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/posts", postsRouter);
@@ -60,9 +56,9 @@ app.use("/api/v1/health", healthRouter);
 app.use("/api/v1/contact", contactRouter);
 app.use("/api/v1/position", leadersRouter);
 
-// app.get("*", function (request, response) {
-//   response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-// });
+app.get("*", function (request, response) {
+  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
